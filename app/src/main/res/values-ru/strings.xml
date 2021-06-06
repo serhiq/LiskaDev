@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Liska</string>
+
+    <!--    MainActivity-->
+    <string name="hint_search">Search … </string>
+
+    <!--    Lists-->
+    <string name="menu_tile">Показать детали</string>
+    <string name="menu_list">Скрыть детали</string>
+
+
+    <!--    navigation drawer-->
+    <string name="nav_title">@string/app_name</string>
+    <string name="nav_list">Lists</string>
+    <string name="nav_catalog">Catalog</string>
+    <string name="nav_create_new">Add list</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+
+    <!--sort dialog-->
+    <string name="sort_by_human">Ручная сортировка</string>
+    <string name="last_modificated">Последние изменённые</string>
+    <string name="sort_alphabetical">По названию</string>
+    <string name="sort_date_added">По дате создания</string>
+    <string name="menu_sort">Сортировать</string>
+    <string name="dialog_select_order_title">Сортировка</string>
+
+    <string name="title_sort_default">Сортировка</string>
+    <string name="title_sort_catalog">Сортировка каталога</string>
+    <string name="title_sort_list">Сортировка списка</string>
+
+    <!--    unsorted-->
+
+    <!--    -->
+    <string name="type_to_compose_text_enter_to_send">добавить позицию</string>
+    <string name="add_edit_fragment_caption_edit">Edit</string>
+
+
+    <!--catalog-->
+    <string name="catalog_app_bar_label">Каталог</string>
+    <string name="menu_delete_catalog">Удалить каталог</string>
+    <string name="menu_mode_edit">Режим редактирования</string>
+
+    <!--units-->
+    <string name="add_edit_catalog_fragment_units_label">Единицы измерения</string>
+
+
+    <!--    THEMES DIALOG-->
+    <string name="dialog_select_themes_title">Выберите тему</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Red</string>
+    <string name="theme_mint">Mint</string>
+    <string name="theme_gray">Gray</string>
+
+    <!--    CATALOG_SELECT_OPTION_DIALOG-->
+    <string name="dialog_catalog_select_option_title">Выбирать из каталога</string>
+    <string name="dialog_select">только чекбоксами</string>
+    <string name="dialog_quantity">только количеством</string>
+    <string name="dialog_two">чекбоксами и количеством</string>
+
+    <!--    Rate Us-->
+    <string name="rate_us_dialog_title">"Thank you for using the Liska!"</string>>
+    <string name="rate_us_dialog_message">If the Liska helped you and you like free programs, please rate it in the Play Store.
+
+This will greatly help in further improving the program.</string>
+    <string name="rate_us_dialog_btn_rate_us_label">Now</string>
+    <string name="rate_us_dialog_btn_cancel_label">Later</string>
+    <string name="setting_app_bar_label">Setting</string>
+
+    <string name="setting_app_bar_about">О программе</string>
+    <string name="setting_general_about">About</string>
+    <string name="setting_general_about_description">App created with love by Sura.</string>
+
+    <string name="liska_url">www.google.ru</string>
+
+    <!--    feedback fragment-->
+    <string name="feedback_app_bar_label">Обратная связь</string>
+    <string name="feedback_mail_subject">Feedback of Liska</string>
+    <string name="send_feedback_two">Feedback</string>
+    <string name="dialog_no_empty_feedback">Нельзя отправить пустой отзыв</string>
+    <string name="feedback_hint_edit_text">Напишите о своей проблеме или о предложении</string>
+
+
+    <string name="saved">Сохранено</string>
+    <string name="delete_empty_list">Пустой список удален</string>
+
+
+    <!--List-->
+    <!--DisplayList-->
+    <string name="menu_delete_list">Удалить список</string>
+    <string name="delete_list_message">Список удален</string>
+
+    <string name="menu_copy_list">Создать копию</string>
+    <string name="copy_list_message">Дублировано</string>
+    <string name="list_name_dialog">Название списка</string>
+    <string name="menu_send_list_text">Отправить</string>
+    <string name="menu_add_with_quantity_text">Добавить с количеством</string>
+    <string name="menu_add_text">Добавить выбором</string>
+    <string name="menu_copy_selected_text">Дублировать</string>
+    <string name="menu_delete_selected_text">Удалить</string>
+    <string name="menu_move_selected_text">Переместить</string>
+
+    <!--    Setting-->
+    <string name="setting_theme">Тема</string>
+    <string name="setting_night_mode">Ночной режим</string>
+    <string name="setting_night_mode_enabled">Включен</string>
+    <string name="setting_night_mode_disabled">Выключен</string>
+    <string name="setting_night_mode_system">Системные настройки</string>
+    <!--    <item>System Default</item>-->
+    <!--    <item>Set By Battery Saver</item>-->
+    <string name="setting_sort_list">Сортировать списки</string>
+    <string name="setting_sort_catalog">Сортировать каталог</string>
+    <string name="setting_select_from_catalog">Выбирать из каталога</string>
+    <string name="setting_favsunits">Любимые единицы измерения</string>
+    <string name="setting_pull_down">Перемещать отмеченные позиции в конец</string>
+    <string name="setting_is_open_last">При запуске открывать последний список</string>
+    <string name="setting_feedback">Обратная связь</string>
+    <string name="setting_share_us">Поделиться с друзьями</string>
+    <string name="setting_about_app">О программе</string>
+
+
+    <!--    AddEditCatalogFragment-->
+    <string name="quantity_by_default">Количество по умолчанию</string>
+    <string name="item_catalog_title_hint_edittext">Название</string>
+    <string name="no_units">нет</string>
+
+    android:text="@string/no_units"
+
+    <!--Units-->
+    <string name="units_select_appbar">Единицы измерения</string>
+    <string name="units_edit_appbar">Единицы измерения</string>
+    <string name="units_edit_caption">редактировать</string>
+
+    <string name="units_favs_appbar">Выберите избранное</string>
+    <string name="units_favs_caption">%d из 4</string>
+
+    <string name="units_equals_unit_snakbar">Такая единица измерения уже есть</string>
+    <string name="units_no_more_four_snakbar">нельзя отмечать больше 4</string>
+
+    <string name="units_edit_title_dialog">Редактировать элемент</string>
+
+    <string name="sendselecteddialogtitle">Переместить</string>
+
+    <!--DisplayList-->
+
+    <string name="error_load">Ошибка загрузки</string>
+    <string name="error_one_list">У вас всего один список</string>
+
+    <!--    CatalogViewFragment-->
+    <string name="delete">Удалено</string>
+
+    <!--    -->
+    <string name="dialog_title_error_browser">No Browser Detected</string>
+    <string name="error_browser">Please, verify a browser is installed and enabled.</string>
+
+    <!--    WIDGET DIALOG-->
+
+
+    <string name="theme_widget_title">Тема виджета</string>
+    <string name="theme_widget_dark">Темная</string>
+    <string name="theme_widget_light">Светлая</string>
+    <string name="theme_widget_transparent_dark_text">Прозрачный фон, темный текст</string>
+    <string name="theme_widget_transparent_light_text">Прозрачный фон, светлый текст</string>
+
+    <!--widget toolbar-->
+    <string name="widget_list_title_create">Создать виджет</string>
+    <string name="widget_list_title_setting">Настройка</string>
+    <string name="main_menu_rate_us">say thank</string>
+    <string name="widget_select_list">Выбрать список</string>
+    <string name="open_list">Открывать список</string>
+    <string name="title_shorcout">Имя ярлыка</string>
+    <string name="icon_list">Иконка списка</string>
+    <string name="theme_widget">Тема виджета</string>
+    <string name="icon_setting">Иконка настроек</string>
+    <string name="share_us_message">"Приложение ведения списков
+
+
+ http://play.google.com/store/apps/details?id=" </string>
+    <string name="create_in_recycler">"создать "</string>
+    <string name="dialog_select_catalog_title">Выберите каталог</string>
+    <string name="catalog_item_menu_save">сохранить</string>
+    <string name="clear">очистить</string>
+    <string name="feedback_send">Отправить</string>
+    <string name="save">сохранить</string>
+    <string name="widget_name_title_configure">Имя ярлыка</string>
+    <string name="select_favorites">выбрать избранные</string>
+
+</resources>

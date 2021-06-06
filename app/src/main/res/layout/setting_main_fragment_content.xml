@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/themes_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+
+        <TextView
+            android:id="@+id/themes_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_1"
+            android:singleLine="true"
+            android:text="@string/setting_theme"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/current_theme_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/themes_title_tv"
+            android:layout_alignStart="@id/themes_title_tv"
+            android:maxLines="1"
+            tools:text="Light theme"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/night_mode_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_221"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+
+        <TextView
+            android:id="@+id/night_mode_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_221"
+            android:singleLine="true"
+            android:text="@string/setting_night_mode"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/night_mode_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/night_mode_title_tv"
+            android:layout_alignStart="@id/night_mode_title_tv"
+            android:maxLines="1"
+            tools:text="системный(по умолчанию)"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sort_list_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/sort_list_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_2"
+            android:singleLine="true"
+            android:text="@string/setting_sort_list"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/sort_list_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sort_list_title_tv"
+            android:layout_alignStart="@id/sort_list_title_tv"
+            android:maxLines="5"
+            tools:text="По алфавиту"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/sort_catalog_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_23"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/sort_catalog_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_23"
+            android:singleLine="true"
+            android:text="@string/setting_sort_catalog"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/sort_catalog_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sort_catalog_title_tv"
+            android:layout_alignStart="@id/sort_catalog_title_tv"
+            android:maxLines="5"
+            tools:text="По алфавиту"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/catalog_option_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+        <Space
+            android:id="@+id/img_12"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/catalog_option_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_12"
+            android:singleLine="true"
+            android:text="@string/setting_select_from_catalog"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/catalog_option_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/catalog_option_tv"
+            android:layout_alignStart="@id/catalog_option_tv"
+            android:maxLines="5"
+            tools:text="с количеством и просто чекбоксами"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/favorite_units_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/favorite_units_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_3"
+            android:singleLine="true"
+            android:text="@string/setting_favsunits"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/favorite_units_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favorite_units_tv"
+            android:layout_alignStart="@id/favorite_units_tv"
+            android:maxLines="5"
+            tools:text="кг, г, см и м"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+        <Space
+            android:id="@+id/img_11"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/is_moved_checked_end_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/is_moved_checked_switch"
+            android:layout_toEndOf="@id/img_11"
+            android:layout_toRightOf="@id/is_moved_checked_switch"
+            android:text="@string/setting_pull_down"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <Switch
+            android:id="@+id/is_moved_checked_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            tools:checked="true" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <Space
+            android:id="@+id/img_71"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:minWidth="60dp" />
+
+        <TextView
+            android:id="@+id/is_open_last_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/is_open_last_list_switch"
+            android:layout_toEndOf="@id/img_71"
+            android:layout_toRightOf="@id/is_open_last_list_switch"
+            android:text="@string/setting_is_open_last"
+
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <Switch
+            android:id="@+id/is_open_last_list_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            tools:checked="true" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?attr/viewDivider" />
+
+    <LinearLayout
+        android:id="@+id/feedback_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:maxWidth="48dp"
+                android:maxHeight="48dp"
+                app:srcCompat="@drawable/setting_ic_feedback"
+              />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/feedback_us_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="@string/setting_feedback"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_weight="1"
+                android:maxWidth="48dp"
+                android:maxHeight="48dp"
+                app:srcCompat="@drawable/ic_share"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/share_us_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:text="@string/setting_share_us"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/about_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_55"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_55"
+            android:singleLine="true"
+            android:text="@string/setting_about_app"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+    </RelativeLayout>
+</LinearLayout>

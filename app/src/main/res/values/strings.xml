@@ -1,0 +1,188 @@
+<resources>
+    <string name="app_name">Liska</string>
+
+    <!--    MainActivity-->
+    <string name="hint_search">Search … </string>
+
+    <!--    Lists-->
+    <string name="menu_tile">Show Details</string>
+    <string name="menu_list">Hide Details</string>
+
+
+    <!--    navigation drawer-->
+    <string name="nav_title">@string/app_name</string>
+    <string name="nav_list">Lists</string>
+    <string name="nav_catalog">Catalog</string>
+    <string name="nav_create_new">Add list</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+
+    <!--sort dialog-->
+    <string name="sort_by_human">Custom</string>
+    <string name="last_modificated">Last edited</string>
+    <string name="sort_alphabetical">Title</string>
+    <string name="sort_date_added">Time</string>
+    <string name="menu_sort">Sort</string>
+    <string name="dialog_select_order_title">Sort</string>
+
+    <string name="title_sort_default">Sort</string>
+    <string name="title_sort_catalog">Sorting the catalog </string>
+    <string name="title_sort_list">Sorting the list</string>
+
+    <!--    unsorted-->
+
+    <!--    -->
+    <string name="type_to_compose_text_enter_to_send">add</string>
+    <string name="add_edit_fragment_caption_edit">Edit</string>
+
+
+    <!--catalog-->
+    <string name="catalog_app_bar_label">Catalog</string>
+    <string name="menu_delete_catalog">Delete catalog</string>
+    <string name="menu_mode_edit">edit</string>
+
+    <!--units-->
+    <string name="add_edit_catalog_fragment_units_label">Units</string>
+
+
+    <!--    THEMES DIALOG-->
+    <string name="dialog_select_themes_title">Select theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Red</string>
+    <string name="theme_mint">Mint</string>
+    <string name="theme_gray">Gray</string>
+
+    <!--    CATALOG_SELECT_OPTION_DIALOG-->
+    <string name="dialog_catalog_select_option_title">Select from catalog</string>
+    <string name="dialog_select">use checkbox</string>
+    <string name="dialog_quantity">with quantity</string>
+    <string name="dialog_two">checkbox and quantity</string>
+
+    <!--    Rate Us-->
+    <string name="rate_us_dialog_title">"Thank you for using the Liska!"</string>>
+    <string name="rate_us_dialog_message">If the Liska helped you and you like free programs, please rate it in the Play Store.
+
+This will greatly help in further improving the program.</string>
+    <string name="rate_us_dialog_btn_rate_us_label">Now</string>
+    <string name="rate_us_dialog_btn_cancel_label">Later</string>
+
+
+    <string name="setting_app_bar_label">Setting</string>
+
+    <string name="setting_app_bar_about">About</string>
+    <string name="setting_general_about">About</string>
+    <string name="setting_general_about_description">App created with love by Sura.</string>
+
+    <string name="liska_url">www.google.ru</string>
+
+    <!--    feedback fragment-->
+    <string name="feedback_app_bar_label">Feedback</string>
+    <string name="feedback_mail_subject">Feedback of Liska</string>
+    <string name="send_feedback_two">Feedback</string>
+    <string name="dialog_no_empty_feedback">Can\'t send empty feedback</string>
+    <string name="feedback_hint_edit_text">Write about your problem </string>
+
+
+    <string name="saved">Saved</string>
+    <string name="delete_empty_list">Empty list removed </string>
+
+
+
+    <!--List-->
+    <!--DisplayList-->
+    <string name="menu_delete_list">Delete list </string>
+    <string name="delete_list_message">Deleted</string>
+
+    <string name="menu_copy_list">Copy list</string>
+    <string name="copy_list_message">Duplicated</string>
+    <string name="list_name_dialog">Edit title</string>
+    <string name="menu_send_list_text">Send</string>
+    <string name="menu_add_with_quantity_text">Add with quantity</string>
+    <string name="menu_add_text">Add with select</string>
+    <string name="menu_copy_selected_text">Duplicate</string>
+    <string name="menu_delete_selected_text">Delete</string>
+    <string name="menu_move_selected_text">Move</string>
+
+    <!--    Setting-->
+    <string name="setting_theme">Theme</string>
+    <string name="setting_night_mode">Night mode</string>
+    <string name="setting_night_mode_enabled">Enabled</string>
+    <string name="setting_night_mode_disabled">Disabled</string>
+    <string name="setting_night_mode_system">System</string>
+    <!--    <item>System Default</item>-->
+    <!--    <item>Set By Battery Saver</item>-->
+    <string name="setting_sort_list">Sort lists </string>
+    <string name="setting_sort_catalog">Sort catalog</string>
+    <string name="setting_select_from_catalog">Choose from the catalog </string>
+    <string name="setting_favsunits">Favorite units </string>
+    <string name="setting_pull_down">Move marked positions to the end </string>
+    <string name="setting_is_open_last">Open the latest list on startup</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_share_us">Share us</string>
+    <string name="setting_about_app">About</string>
+
+    <!--    AddEditCatalogFragment-->
+    <string name="quantity_by_default">Default quantity </string>
+    <string name="item_catalog_title_hint_edittext">Title</string>
+    <string name="no_units">нет</string>
+
+    <!--Units-->
+    <string name="units_select_appbar">Units</string>
+    <string name="units_edit_appbar">Units</string>
+    <string name="units_edit_caption">Edit</string>
+
+    <string name="units_favs_appbar">Favorites</string>
+    <string name="units_favs_caption">%d of 4</string>
+
+    <string name="units_equals_unit_snakbar">This unit already exists</string>
+    <string name="units_no_more_four_snakbar">No more than 4 </string>
+
+    <string name="units_edit_title_dialog">Edit units</string>
+
+    <string name="sendselecteddialogtitle">Move</string>
+
+    <!--DisplayList-->
+
+    <string name="error_load">Error load</string>
+    <string name="error_one_list">You only have one list </string>
+
+    <!--    CatalogViewFragment-->
+    <string name="delete">Deleted</string>
+
+    <!--    -->
+    <string name="dialog_title_error_browser">No Browser Detected</string>
+    <string name="error_browser">Please, verify a browser is installed and enabled.</string>
+
+    <!--    WIDGET DIALOG-->
+
+
+    <string name="theme_widget_title">Theme</string>
+    <string name="theme_widget_dark">Dark</string>
+    <string name="theme_widget_light">Light</string>
+    <string name="theme_widget_transparent_dark_text">Only dark text</string>
+    <string name="theme_widget_transparent_light_text">Only light text</string>
+
+    <!--widget toolbar-->
+    <string name="widget_list_title_create">Create widget</string>
+    <string name="widget_list_title_setting">Setting</string>
+    <string name="main_menu_rate_us">say thank</string>
+    <string name="widget_select_list">Select list</string>
+    <string name="open_list">List</string>
+    <string name="title_shorcout">Display title</string>
+    <string name="icon_list">Icon</string>
+    <string name="theme_widget">Theme</string>
+    <string name="icon_setting">Icon setting</string>
+    <string name="share_us_message">"I'm using Liska. Join to Liska appr.
+
+
+ http://play.google.com/store/apps/details?id=" </string>
+    <string name="create_in_recycler">"new "</string>
+    <string name="dialog_select_catalog_title">Select catalog</string>
+    <string name="catalog_item_menu_save">save</string>
+    <string name="clear">clear</string>
+    <string name="feedback_send">send</string>
+    <string name="save">save</string>
+    <string name="widget_name_title_configure">Title</string>
+    <string name="select_favorites">Select favorites</string>
+</resources>

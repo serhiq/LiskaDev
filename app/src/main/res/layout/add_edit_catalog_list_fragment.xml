@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/decrease_fl"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/units_1_tv"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/units_1_tv"
+            app:layout_constraintTop_toTopOf="@+id/quantity_et">
+
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_remove" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/increase_fl"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/units_3_tv"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/units_3_tv"
+            app:layout_constraintTop_toTopOf="@+id/quantity_et">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_add_dissabled_24dp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/quantity_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/quantity_by_default"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/units_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/divider_bottom" />
+
+        <View
+            android:id="@+id/divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="?attr/viewDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/units_5_tv" />
+
+        <FrameLayout
+            android:id="@+id/units_6_fl"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/units_3_tv"
+            app:layout_constraintStart_toStartOf="@+id/units_3_tv"
+            app:layout_constraintTop_toBottomOf="@+id/units_3_tv">
+
+            <ImageView
+
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_more" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/units_5_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="@+id/units_2_tv"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/units_2_tv"
+            app:layout_constraintTop_toTopOf="@+id/units_4_tv"
+            tools:text="кг" />
+
+        <TextView
+            android:id="@+id/units_4_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toStartOf="@+id/units_2_tv"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/units_1_tv"
+            tools:text="л" />
+
+        <TextView
+            android:id="@+id/units_3_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="32dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/units_2_tv"
+            app:layout_constraintTop_toTopOf="@+id/units_2_tv"
+            tools:text="г" />
+
+        <TextView
+            android:id="@+id/units_1_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/no_units"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/units_2_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/units_2_tv" />
+
+        <TextView
+            android:id="@+id/units_2_tv"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_gray_stroke"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toStartOf="@+id/units_3_tv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/units_1_tv"
+            app:layout_constraintTop_toBottomOf="@+id/units_title_tv"
+            tools:text="шт" />
+
+        <EditText
+            android:id="@+id/title_et"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:gravity="bottom"
+            android:imeOptions="flagNoExtractUi|flagNoEnterAction"
+            android:maxLines="2"
+            android:text="@string/item_catalog_title_hint_edittext"
+            android:textColor="?attr/colorSecondary"
+            android:textColorHint="?attr/colorSecondary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="молоко сгущенное 2,345566567657567" />
+
+        <View
+            android:id="@+id/divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="?attr/viewDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_et" />
+
+        <TextView
+            android:id="@+id/units_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/add_edit_catalog_fragment_units_label"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/title_et"
+            app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+        <EditText
+            android:id="@+id/quantity_et"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center"
+            android:imeOptions="flagNoExtractUi|flagNoEnterAction"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toStartOf="@+id/increase_fl"
+            app:layout_constraintStart_toEndOf="@+id/decrease_fl"
+            app:layout_constraintTop_toBottomOf="@+id/quantity_title_tv"
+            tools:text="12" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

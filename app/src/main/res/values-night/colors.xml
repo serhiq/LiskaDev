@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="common_very_dark">#EFEFEF</color>
+    <color name="common_dark_gray">#B3B3B5</color>
+    <color name="common_middle_gray">#737572</color>
+    <color name="common_light_gray">#3F3F3F</color>
+    <color name="common_white">#000000</color>
+
+    <color name="theme_primary">#08CF94</color>
+
+    <color name="colorPrimary">#D0DFE7</color>
+
+    <!--Light -->
+    <color name="theme_primary_blue">#85A4C3</color>
+    <color name="theme_primary_alpha_blue">#389CC2E8</color>
+
+    <!--Dark -->
+    <color name="theme_primary_dark">#D89896</color>
+    <color name="theme_primary_alpha_dark">#1DE38583</color>
+
+    <!--Mint -->
+    <color name="theme_primary_mint">#9FC7A2</color>
+    <color name="theme_primary_alpha_mint_">#389FC7A2</color>
+
+    <!--Gray -->
+    <color name="gray_color_on_primary">#B3B3B2</color>
+    <color name="gray_color_on_primary_alpha">#1DB3B3B2</color>
+
+</resources>

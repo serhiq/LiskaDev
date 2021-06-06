@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="72dp"
+              android:clipToPadding="false"
+              android:gravity="center_vertical"
+              android:minHeight="?attr/listPreferredItemHeightSmall"
+              android:paddingStart="?attr/listPreferredItemPaddingStart"
+              android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+    <FrameLayout
+        tools:visibility="visible"
+        android:id="@+id/add_fl"
+        android:layout_marginStart="-4dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="60dp"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:visibility="gone">
+
+        <ImageView
+            app:tint="?attr/colorSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_add_primary_24dp" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/checkbox_ll"
+        android:layout_marginStart="-4dp"
+
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="60dp"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:saveEnabled="false"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="chicken" />
+    </RelativeLayout>
+</LinearLayout>

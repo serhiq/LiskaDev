@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:clipToPadding="false"
+              android:gravity="center_vertical"
+              android:minHeight="?attr/listPreferredItemHeightSmall"
+              android:paddingStart="?attr/listPreferredItemPaddingStart"
+              android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+
+    <LinearLayout
+        android:id="@+id/handle_ll"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="60dp"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/handle_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="48dp"
+            android:maxHeight="48dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_drag_handle" />
+    </LinearLayout>
+        <TextView
+            android:layout_weight="1"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="овощи и фрукты" />
+</LinearLayout>

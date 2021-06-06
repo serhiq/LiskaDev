@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/name_app_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_0"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/part_fast_game_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_0"
+            android:singleLine="true"
+            android:text="Liska"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/name_app_version_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/part_fast_game_title_tv"
+            android:layout_alignStart="@id/part_fast_game_title_tv"
+            android:maxLines="5"
+            android:text="1.0"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/website_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/website_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_1"
+            android:singleLine="true"
+            android:text="Official website"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/website_description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/website_tv"
+            android:layout_alignStart="@id/website_tv"
+            android:maxLines="5"
+            android:text="https://serhiq.github.io/liska-site/"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/terms_of_use_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/terms_of_use_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_2"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:text="Terms of Use"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/privacy_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/privacy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_3"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:text="Privacy policy"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?attr/viewDivider" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingTop="16dip"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:paddingBottom="16dip">
+
+        <LinearLayout
+            android:id="@+id/img_5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-4dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/img_5"
+            android:singleLine="true"
+            android:text="@string/setting_general_about"
+            android:textAppearance="?android:attr/textAppearanceListItem" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/about_us"
+            android:layout_alignStart="@id/about_us"
+            android:maxLines="5"
+            android:text="@string/setting_general_about_description"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary" />
+    </RelativeLayout>
+</LinearLayout>

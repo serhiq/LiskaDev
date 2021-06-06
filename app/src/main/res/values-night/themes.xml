@@ -1,0 +1,55 @@
+<resources>
+
+    <style name="Base.Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <item name="big_space">?attr/colorSurface</item>
+        <item name="color_secondary_alpha">@color/theme_primary_alpha_blue</item>
+        <!-- темный текст в заголовке и на плашказх в юнитах        -->
+        <item name="text_dark_onSecondaryAlpha">@color/middle_gray</item>
+
+        <item name="colorOnSecondary">@color/common_white</item>
+        <item name="colorSecondary">@color/theme_primary</item>
+
+        <item name="high_attention_icon_onSpace">@color/common_dark_gray</item>
+        <item name="low_attention_icon_onSpace">@color/common_middle_gray</item>
+
+        <item name="android:colorBackground">?attr/colorSurface</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+
+        <item name="viewDivider">@color/common_light_gray</item>
+
+        <item name="color_star_in_rate_us">#FFBA22</item>
+
+        <item name="color_quantity_default">@color/common_middle_gray</item>
+        <item name="color_quantity_select">?android:attr/textColorPrimary</item>
+
+        <item name="android:textColorSecondary">@color/dark_gray</item>
+        <item name="android:textColorPrimary">@color/common_dark_gray</item>
+
+
+    </style>
+
+    <style name="Theme.App.Blue" parent="Base.Theme.App">
+        <item name="colorSecondary">@color/theme_primary_blue</item>
+        <item name="color_secondary_alpha">@color/theme_primary_alpha_blue</item>
+    </style>
+
+    <style name="Theme.App.Red" parent="Base.Theme.App">
+        <item name="colorSecondary">@color/theme_primary_dark</item>
+        <item name="color_secondary_alpha">@color/theme_primary_alpha_dark</item>
+
+    </style>
+
+    <style name="Theme.App.Mint" parent="Base.Theme.App">
+        <item name="color_secondary_alpha">@color/theme_primary_alpha_mint_</item>
+        <item name="colorSecondary">@color/theme_primary_mint</item>
+    </style>
+
+    <style name="Theme.App.Gray" parent="Base.Theme.App">
+        <item name="color_secondary_alpha">@color/gray_color_on_primary_alpha</item>
+        <item name="colorSecondary">@color/gray_color_on_primary</item>
+    </style>
+
+
+</resources>

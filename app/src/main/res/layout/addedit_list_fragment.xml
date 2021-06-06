@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_detailed_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/item_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/viewDivider"
+        app:layout_constraintBottom_toTopOf="@+id/enter_word_edit_text" />
+
+    <EditText
+        android:id="@+id/enter_word_edit_text"
+        android:layout_width="0dip"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1.0"
+        android:background="@null"
+        android:hint="@string/type_to_compose_text_enter_to_send"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
+        android:nextFocusRight="@+id/send_button"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/save_word_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:tint="?attr/colorSecondary"
+        android:id="@+id/save_word_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:drawablePadding="0dip"
+        android:padding="0dp"
+        android:src="@drawable/add_button_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/enter_word_edit_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

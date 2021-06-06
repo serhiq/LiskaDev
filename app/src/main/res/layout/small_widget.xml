@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_ll"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:minWidth="72dp"
+    android:minHeight="32dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="4dp">
+
+        <ImageView
+           android:layout_gravity="center"
+            android:id="@+id/setting_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/widget_ic_setting_dark"
+            tools:ignore="ContentDescription" />
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/imageView"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_gravity="center"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/widget_small_list_dark" />
+    <TextView
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="5"
+        tools:text="список"
+        android:textSize="12dp" />
+</LinearLayout>

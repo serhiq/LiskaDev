@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    android:id="@+id/layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="64dp"
+              android:clipToPadding="false"
+              android:gravity="center_vertical"
+              android:minHeight="?attr/listPreferredItemHeightSmall"
+              android:paddingStart="?attr/listPreferredItemPaddingStart"
+              android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+
+    <LinearLayout
+        android:id="@+id/handle_ll"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-4dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="60dp"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="4dp">
+        <RadioButton
+            android:buttonTint="?attr/colorSecondary"
+
+
+            android:id="@+id/radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingLeft="32dp"
+            android:saveEnabled="false"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingLeft="32dp"
+            android:saveEnabled="false"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/handle_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_drag_handle" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceListItem"
+            tools:text="овощи и фрукты" />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/delete_fl"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/delete_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_clear" />
+    </FrameLayout>
+</LinearLayout>

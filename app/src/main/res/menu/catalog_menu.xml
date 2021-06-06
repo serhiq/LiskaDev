@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:visible="true"
+        app:showAsAction="always"
+        android:id="@+id/menu_add_mode"
+        android:title="@string/menu_mode_edit"
+        android:icon="@drawable/adapter_ic_edit"/>
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_delete_list"
+        android:title="@string/menu_delete_catalog" />
+</menu>

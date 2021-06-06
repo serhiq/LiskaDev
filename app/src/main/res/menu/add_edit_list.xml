@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <!--mode view-->
+    <item
+        android:visible="false"
+        app:showAsAction="always"
+        android:id="@+id/menu_add_mode"
+        android:title="@string/menu_mode_edit"
+        android:icon="@drawable/adapter_ic_edit"/>
+
+
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_delete_list"
+        android:title="@string/menu_delete_list" />
+
+
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_send_list"
+        android:title="@string/menu_send_list_text" />
+
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_copy_list"
+        android:title="@string/menu_copy_list" />
+
+<!--mode selected-->
+
+    <item
+        android:visible="false"
+        app:showAsAction="always"
+        android:id="@+id/menu_move_selected"
+        android:title="@string/menu_move_selected_text"
+        android:icon="@drawable/adapter_ic_move"/>
+
+    <item
+        android:visible="false"
+        app:showAsAction="always"
+        android:id="@+id/menu_delete_selected"
+        android:title="@string/menu_delete_selected_text"
+        android:icon="@drawable/adapter_ic_delete"/>
+
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_send_selected"
+        android:title="@string/menu_send_list_text"
+        />
+
+    <item
+        android:visible="false"
+        app:showAsAction="never"
+        android:id="@+id/menu_copy_selected"
+        android:title="@string/menu_copy_selected_text"
+    />
+ <item
+     android:icon="@drawable/ic_library_check"
+     android:visible="false"
+     app:showAsAction="always"
+     android:id="@+id/menu_add_from_catalog"
+     android:title="@string/menu_add_text"
+     />
+ <item
+     android:id="@+id/menu_add_with_quantity"
+     android:icon="@drawable/ic_library_add"
+     android:title="@string/menu_add_with_quantity_text"
+     android:visible="false"
+     app:showAsAction="always" />
+</menu>
