@@ -13,13 +13,12 @@ android {
         pickFirst 'META-INF/kotlinx-coroutines-io.kotlin_module'
     }
 
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.gmail.uia059466.liska"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -45,7 +44,9 @@ android {
         // allows mocking for classes w/o directly opening them for release builds
         annotation 'com.gmail.uia059466.liska.OpenClass'
     }
-
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {

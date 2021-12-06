@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,19 +22,18 @@
         android:paddingBottom="16dip">
 
         <Space
-            android:id="@+id/img_1"
+            android:id="@+id/sp_1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="-4dp"
             android:minWidth="60dp" />
-
 
         <TextView
             android:id="@+id/themes_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/img_1"
+            android:layout_toEndOf="@id/sp_1"
             android:singleLine="true"
             android:text="@string/setting_theme"
             android:textAppearance="?android:attr/textAppearanceListItem" />
@@ -45,9 +45,10 @@
             android:layout_below="@id/themes_title_tv"
             android:layout_alignStart="@id/themes_title_tv"
             android:maxLines="1"
-            tools:text="Light theme"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Light theme" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -63,19 +64,18 @@
         android:paddingBottom="16dip">
 
         <Space
-            android:id="@+id/img_221"
+            android:id="@+id/space_2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="-4dp"
             android:minWidth="60dp" />
-
 
         <TextView
             android:id="@+id/night_mode_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/img_221"
+            android:layout_toEndOf="@id/space_2"
             android:singleLine="true"
             android:text="@string/setting_night_mode"
             android:textAppearance="?android:attr/textAppearanceListItem" />
@@ -87,9 +87,10 @@
             android:layout_below="@id/night_mode_title_tv"
             android:layout_alignStart="@id/night_mode_title_tv"
             android:maxLines="1"
-            tools:text="системный(по умолчанию)"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="системный(по умолчанию)" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -105,7 +106,7 @@
         android:paddingBottom="16dip">
 
         <Space
-            android:id="@+id/img_2"
+            android:id="@+id/space_3"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="-4dp"
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@id/img_2"
+            android:layout_toEndOf="@id/space_3"
             android:singleLine="true"
             android:text="@string/setting_sort_list"
             android:textAppearance="?android:attr/textAppearanceListItem" />
@@ -128,10 +129,11 @@
             android:layout_below="@id/sort_list_title_tv"
             android:layout_alignStart="@id/sort_list_title_tv"
             android:maxLines="5"
-            tools:text="По алфавиту"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="По алфавиту" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/sort_catalog_rv"
         android:layout_width="match_parent"
@@ -168,10 +170,11 @@
             android:layout_below="@id/sort_catalog_title_tv"
             android:layout_alignStart="@id/sort_catalog_title_tv"
             android:maxLines="5"
-            tools:text="По алфавиту"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="По алфавиту" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/catalog_option_rv"
         android:layout_width="match_parent"
@@ -183,6 +186,7 @@
         android:paddingTop="16dip"
         android:paddingEnd="?attr/listPreferredItemPaddingEnd"
         android:paddingBottom="16dip">
+
         <Space
             android:id="@+id/img_12"
             android:layout_width="48dp"
@@ -207,9 +211,9 @@
             android:layout_below="@id/catalog_option_tv"
             android:layout_alignStart="@id/catalog_option_tv"
             android:maxLines="5"
-            tools:text="с количеством и просто чекбоксами"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="с количеством и просто чекбоксами" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -248,9 +252,9 @@
             android:layout_below="@id/favorite_units_tv"
             android:layout_alignStart="@id/favorite_units_tv"
             android:maxLines="5"
-            tools:text="кг, г, см и м"
             android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="кг, г, см и м" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -263,6 +267,7 @@
         android:paddingTop="16dip"
         android:paddingEnd="?attr/listPreferredItemPaddingEnd"
         android:paddingBottom="16dip">
+
         <Space
             android:id="@+id/img_11"
             android:layout_width="48dp"
@@ -291,7 +296,6 @@
             android:layout_marginTop="8dp"
             tools:checked="true" />
     </RelativeLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -325,7 +329,7 @@
 
             android:textAppearance="?android:attr/textAppearanceListItem" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/is_open_last_list_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -369,8 +373,7 @@
                 android:layout_weight="1"
                 android:maxWidth="48dp"
                 android:maxHeight="48dp"
-                app:srcCompat="@drawable/setting_ic_feedback"
-              />
+                app:srcCompat="@drawable/setting_ic_feedback" />
         </LinearLayout>
 
         <TextView
@@ -381,7 +384,6 @@
             android:singleLine="true"
             android:text="@string/setting_feedback"
             android:textAppearance="?android:attr/textAppearanceListItem" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -414,12 +416,10 @@
                 android:layout_weight="1"
                 android:maxWidth="48dp"
                 android:maxHeight="48dp"
-                app:srcCompat="@drawable/ic_share"
-                />
+                app:srcCompat="@drawable/ic_share" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/share_us_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -456,7 +456,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/about_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

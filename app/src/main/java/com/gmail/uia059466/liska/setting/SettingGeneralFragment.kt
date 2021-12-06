@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.gmail.uia059466.liska.Mode
 import com.gmail.uia059466.liska.R
+import com.gmail.uia059466.liska.databinding.SettingMainFragmentBinding
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
 import com.gmail.uia059466.liska.lists.sortorder.SelectSortAlertDialogFragment
 import com.gmail.uia059466.liska.lists.sortorder.SortOrder
@@ -37,13 +38,10 @@ class SettingGeneralFragment : Fragment() {
 
     lateinit var viewModel: SettingGeneralViewModel
 
-    private lateinit var currentSortOrderList: TextView
-    private lateinit var rvSortList: RelativeLayout
+    private var _binding: SettingMainFragmentBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var rvSortCatalogList: RelativeLayout
-    private lateinit var currentSortOrderCatalog: TextView
-
-    private lateinit var tvFavoriteUnitsDescription: TextView
+    private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,117 +51,77 @@ class SettingGeneralFragment : Fragment() {
     override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
       savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(
-          R.layout.setting_main_fragment,
-          container,
-          false
-        )
+    ): View {
+        _binding = SettingMainFragmentBinding.inflate(inflater, container, false)
 
         val activity = requireActivity() as MainActivityImpl
 
         setupAppBar()
         setupObservers()
 
-        val pref = UserPreferencesRepositoryImpl.getInstance(requireContext())
 
-        val isMoveChecked = view.findViewById<Switch>(R.id.is_moved_checked_switch)
-        isMoveChecked.isChecked = pref.isMovedChecked
-        isMoveChecked.setOnCheckedChangeListener { _, isChecked ->
-            pref.isMovedChecked = isChecked
+        binding.content.isMovedCheckedSwitch.isChecked = prefs.isMovedChecked
+        binding.content.isMovedCheckedSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.isMovedChecked = isChecked
         }
 
-        val isOpenLastList = view.findViewById<Switch>(R.id.is_open_last_list_switch)
-        isOpenLastList.isChecked = pref.isOpenLastList
-        isOpenLastList.setOnCheckedChangeListener { _, isChecked ->
-            pref.isOpenLastList = isChecked
+        binding.content.isOpenLastListSwitch.isChecked = prefs.isOpenLastList
+        binding.content.isOpenLastListSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.isOpenLastList = isChecked
         }
 
-        currentSortOrderList = view.findViewById<TextView>(R.id.sort_list_description_tv)
-        rvSortList = view.findViewById<RelativeLayout>(R.id.sort_list_rv)
+        binding.content.favoriteUnitsRv.setOnClickListener { displaySelectFavoriteUnits() }
+        binding.content.favoriteUnitsDescription.text = FavoriteUnitsFormatter().createDescription(prefs.readFavUnits())
 
-        rvSortCatalogList = view.findViewById<RelativeLayout>(R.id.sort_catalog_rv)
-        currentSortOrderCatalog = view.findViewById<TextView>(R.id.sort_catalog_description_tv)
-
-        val rvFavoriteUnits = view.findViewById<RelativeLayout>(R.id.favorite_units_rv)
-        rvFavoriteUnits.setOnClickListener {
-            displaySelectFavoriteUnits()
+        binding.content.feedbackLl.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_feedbackFragment)
         }
 
-        tvFavoriteUnitsDescription = view.findViewById(R.id.favorite_units_description)
+        binding.content.shareLl.setOnClickListener { showShareApp() }
 
-
-        val llFeedback = view.findViewById<LinearLayout>(R.id.feedback_ll)
-        llFeedback.setOnClickListener {
-            val action = R.id.action_settingGeneralFragment_to_feedbackFragment
-            activity.navigateTo(action)
+        binding.content.aboutRv.setOnClickListener {
+            (requireActivity() as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_aboutFragment)
         }
 
-        val llShareUs = view.findViewById<LinearLayout>(R.id.share_ll)
-        llShareUs.setOnClickListener {
-            showShareApp()
-        }
+        val currentOption=prefs.current_option
 
-        val rvAbout = view.findViewById<RelativeLayout>(R.id.about_rv)
-        rvAbout.setOnClickListener {
-            val action = R.id.action_settingGeneralFragment_to_aboutFragment
-            activity.navigateTo(action)
-        }
+        binding.content.catalogOptionDescription.text = getTitleForOption(currentOption)
 
-        val rlCatalogOption = view.findViewById<RelativeLayout>(R.id.catalog_option_rv)
-        val currentOption=pref.current_option
-        val tvCatalogOption = view.findViewById<TextView>(R.id.catalog_option_description)
-
-        tvCatalogOption.text = getTitleForOption(currentOption)
-
-        rlCatalogOption.setOnClickListener {
+        binding.content.catalogOptionRv.setOnClickListener {
 
             val dialog = SelectCatalogDialogFragment.newInstance(currentOption)
             dialog.onOk = {
-                pref.updateCurrentOption(dialog.selectedNow)
-                tvCatalogOption.text = getTitleForOption(dialog.selectedNow)
+                prefs.updateCurrentOption(dialog.selectedNow)
+                binding.content.catalogOptionDescription.text = getTitleForOption(dialog.selectedNow)
 
                 dialog.dismiss()
             }
             requireActivity().supportFragmentManager.let { dialog.show(it, "selectCatalog") }
         }
 
+        binding.content.themesRl.setOnClickListener { showThemes() }
 
+        binding.content.currentThemeTv.text = getTitleForTheme(activity.currentTheme)
 
-        val rlThemes = view.findViewById<RelativeLayout>(R.id.themes_rl)
+        val currentNightMode = prefs.getCurrentNightMode()
 
-        rlThemes.setOnClickListener {
-            showThemes()
-        }
-
-        val tvThemes = view.findViewById<TextView>(R.id.current_theme_tv)
-        val currentThemes = activity.currentTheme
-
-        tvThemes.text = getTitleForTheme(currentThemes)
-
-
-        val rlNightMode = view.findViewById<RelativeLayout>(R.id.night_mode_rl)
-        val currentNightMode = pref.getCurrentNightMode()
-
-        rlNightMode.setOnClickListener {
+        binding.content.nightModeRl.setOnClickListener {
             val dialog = SelectNightModeDialogFragment.newInstance(currentNightMode)
             dialog.onOk = {
                 switchToMode(dialog.selectedNow)
-                pref.nightMode = dialog.selectedNow.rawValue
+                prefs.nightMode = dialog.selectedNow.rawValue
                 dialog.dismiss()
             }
             requireActivity().supportFragmentManager.let { dialog.show(it, "night_mode_dialog") }
        }
 
-        val tvNightMode = view.findViewById<TextView>(R.id.night_mode_tv)
-
-        tvNightMode.text = getTitle(currentNightMode)
+        binding.content.nightModeTv.text = getTitle(currentNightMode)
 
         setupObservers()
         setupOnBackPressed()
         setHasOptionsMenu(true)
 
-        return view
+        return binding.root
     }
 
     private fun switchToMode(selectedNow: Mode) {
@@ -264,7 +222,9 @@ class SettingGeneralFragment : Fragment() {
         viewModel.sortOrderList.observe(viewLifecycleOwner, Observer {
           it?.let { sortOrder ->
 
-            rvSortList.setOnClickListener {
+
+
+              binding.content.sortListRv.setOnClickListener {
               val dialog = SelectSortAlertDialogFragment.newInstance(sortOrder, R.string.title_sort_list)
               dialog.onOk = {
                 val sort = dialog.selected
@@ -272,7 +232,8 @@ class SettingGeneralFragment : Fragment() {
               }
               requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
             }
-            currentSortOrderList.text = getTitleForSortOption(sortOrder)
+
+              binding.content.sortListDescriptionTv.text = getTitleForSortOption(sortOrder)
 
           }
         })
@@ -280,7 +241,7 @@ class SettingGeneralFragment : Fragment() {
         viewModel.sortOrderCatalog.observe(viewLifecycleOwner, Observer {
             it?.let { sortOrder ->
 
-                rvSortCatalogList.setOnClickListener {
+                binding.content.sortCatalogRv.setOnClickListener {
                     val dialog = SelectSortAlertDialogFragment.newInstance(sortOrder, R.string.title_sort_catalog)
                     dialog.onOk = {
                         val sort = dialog.selected
@@ -288,16 +249,14 @@ class SettingGeneralFragment : Fragment() {
                     }
                     requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
                 }
-                currentSortOrderCatalog.text = getTitleForSortOption(sortOrder)
-
+                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(sortOrder)
             }
         })
 
         viewModel.favUnits.observe(viewLifecycleOwner, Observer {
           it?.let { units ->
             val description = FavoriteUnitsFormatter().createDescription(units)
-            tvFavoriteUnitsDescription.text = description
-
+              binding.content.favoriteUnitsDescription.text = description
           }
         })
     }
@@ -336,5 +295,10 @@ class SettingGeneralFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refreshFavsUnits()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
