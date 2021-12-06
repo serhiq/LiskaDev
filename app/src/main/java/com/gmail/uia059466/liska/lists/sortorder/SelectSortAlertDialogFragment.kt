@@ -9,7 +9,7 @@ import com.gmail.uia059466.liska.R
 class SelectSortAlertDialogFragment : AppCompatDialogFragment() {
   
   var onOk: (() -> Unit)? = null
-  var selected = SortOrder.A_Z
+  var selectedSort = SortOrder.A_Z
   
   
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,7 +35,7 @@ class SelectSortAlertDialogFragment : AppCompatDialogFragment() {
                     checkedItem
                                  ) { dialogInterface, i ->
               val mumu = sorted[i]
-              selected = SortOrder.fromString(mumu)
+              selectedSort = SortOrder.fromString(mumu)
               onOk?.invoke()
               dialogInterface.dismiss()
             }.create()

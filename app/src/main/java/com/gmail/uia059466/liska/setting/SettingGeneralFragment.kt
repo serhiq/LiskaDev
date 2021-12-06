@@ -6,17 +6,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Switch
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.gmail.uia059466.liska.Mode
 import com.gmail.uia059466.liska.R
@@ -32,21 +26,13 @@ import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogDialogFragme
 import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogOption
 import com.gmail.uia059466.liska.setting.themes.SelectNightModeDialogFragment
 import com.gmail.uia059466.liska.setting.themes.Theme
-import com.gmail.uia059466.liska.utils.InjectorUtils
 
 class SettingGeneralFragment : Fragment() {
-
-    lateinit var viewModel: SettingGeneralViewModel
 
     private var _binding: SettingMainFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupViewModel()
-    }
 
     override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
@@ -54,11 +40,7 @@ class SettingGeneralFragment : Fragment() {
     ): View {
         _binding = SettingMainFragmentBinding.inflate(inflater, container, false)
 
-        val activity = requireActivity() as MainActivityImpl
-
         setupAppBar()
-        setupObservers()
-
 
         binding.content.isMovedCheckedSwitch.isChecked = prefs.isMovedChecked
         binding.content.isMovedCheckedSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -83,13 +65,11 @@ class SettingGeneralFragment : Fragment() {
             (requireActivity() as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_aboutFragment)
         }
 
-        val currentOption=prefs.current_option
-
-        binding.content.catalogOptionDescription.text = getTitleForOption(currentOption)
+        binding.content.catalogOptionDescription.text = getTitleForOption(prefs.current_option)
 
         binding.content.catalogOptionRv.setOnClickListener {
 
-            val dialog = SelectCatalogDialogFragment.newInstance(currentOption)
+            val dialog = SelectCatalogDialogFragment.newInstance(prefs.current_option)
             dialog.onOk = {
                 prefs.updateCurrentOption(dialog.selectedNow)
                 binding.content.catalogOptionDescription.text = getTitleForOption(dialog.selectedNow)
@@ -99,14 +79,11 @@ class SettingGeneralFragment : Fragment() {
             requireActivity().supportFragmentManager.let { dialog.show(it, "selectCatalog") }
         }
 
-        binding.content.themesRl.setOnClickListener { showThemes() }
-
-        binding.content.currentThemeTv.text = getTitleForTheme(activity.currentTheme)
-
-        val currentNightMode = prefs.getCurrentNightMode()
+        binding.content.themesRl.setOnClickListener {(activity as MainActivityImpl).showThemes() }
+        binding.content.currentThemeTv.text = getTitleForTheme((activity as MainActivityImpl).currentTheme)
 
         binding.content.nightModeRl.setOnClickListener {
-            val dialog = SelectNightModeDialogFragment.newInstance(currentNightMode)
+            val dialog = SelectNightModeDialogFragment.newInstance(prefs.getCurrentNightMode())
             dialog.onOk = {
                 switchToMode(dialog.selectedNow)
                 prefs.nightMode = dialog.selectedNow.rawValue
@@ -115,9 +92,40 @@ class SettingGeneralFragment : Fragment() {
             requireActivity().supportFragmentManager.let { dialog.show(it, "night_mode_dialog") }
        }
 
-        binding.content.nightModeTv.text = getTitle(currentNightMode)
+        binding.content.nightModeTv.text = getTitle(prefs.getCurrentNightMode())
 
-        setupObservers()
+        binding.content.sortListRv.setOnClickListener {
+            val dialog = SelectSortAlertDialogFragment.newInstance(
+                prefs.sortOrderCatalog,
+                R.string.title_sort_catalog
+            )
+
+            dialog.onOk = {
+                prefs.saveSortOrderList(dialog.selectedSort)
+                if (dialog.selectedSort == SortOrder.MANUAL_SORT) navigateToManualSortList()
+                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(dialog.selectedSort)
+            }
+            requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
+        }
+
+        binding.content.sortListDescriptionTv.text = getTitleForSortOption(prefs.sortOrder)
+
+        binding.content.sortCatalogRv.setOnClickListener {
+            val dialog = SelectSortAlertDialogFragment.newInstance(
+                prefs.sortOrderCatalog,
+                R.string.title_sort_catalog
+            )
+
+            dialog.onOk = {
+                prefs.saveSortOrderCatalog(dialog.selectedSort)
+                if (dialog.selectedSort == SortOrder.MANUAL_SORT) navigateToManualSortCatalog()
+                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(dialog.selectedSort)
+            }
+            requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
+        }
+        binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(prefs.sortOrderCatalog)
+        val description = FavoriteUnitsFormatter().createDescription(prefs.readFavUnits())
+        binding.content.favoriteUnitsDescription.text = description
         setupOnBackPressed()
         setHasOptionsMenu(true)
 
@@ -154,9 +162,8 @@ class SettingGeneralFragment : Fragment() {
     }
 
     private fun setupAppBar() {
-        val mainActivity = activity as MainActivityImpl
         val title = getString(R.string.setting_app_bar_label)
-        mainActivity.renderAppbar(AppBarUiState.ArrayWithTitle(title))
+        (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
     }
 
     private fun getTitleForOption(theme: SelectCatalogOption) = when (theme) {
@@ -172,9 +179,6 @@ class SettingGeneralFragment : Fragment() {
       Theme.GRAY -> getString(R.string.theme_gray)
     }
 
-    private fun showThemes() {
-        (activity as MainActivityImpl).showThemes()
-    }
 
     private fun setupOnBackPressed() {
         requireActivity().onBackPressedDispatcher
@@ -197,68 +201,12 @@ class SettingGeneralFragment : Fragment() {
         return true
     }
 
-    private fun setupObservers() {
-        viewModel.navigateToManualSortList.observe(viewLifecycleOwner, Observer {
-          it?.let { navigateToSort ->
-            if (navigateToSort) {
-              val action = R.id.action_settingGeneralFragment_to_manualSortFragment
-              (activity as MainActivity).navigateTo(action)
-            }
-          }
-        })
+    private fun navigateToManualSortList() {
+        (activity as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_manualSortFragment)
+    }
 
-        viewModel.navigateToManualCatalogSort.observe(viewLifecycleOwner, Observer {
-          it?.let { navigateToSort ->
-            if (navigateToSort) {
-              val action = R.id.action_settingGeneralFragment_to_manualSortCatalogFragment
-              (activity as MainActivity).navigateTo(action)
-            }
-          }
-        })
-
-
-
-
-        viewModel.sortOrderList.observe(viewLifecycleOwner, Observer {
-          it?.let { sortOrder ->
-
-
-
-              binding.content.sortListRv.setOnClickListener {
-              val dialog = SelectSortAlertDialogFragment.newInstance(sortOrder, R.string.title_sort_list)
-              dialog.onOk = {
-                val sort = dialog.selected
-                viewModel.takeAction(SettingGeneralAction.SortList(sort))
-              }
-              requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
-            }
-
-              binding.content.sortListDescriptionTv.text = getTitleForSortOption(sortOrder)
-
-          }
-        })
-
-        viewModel.sortOrderCatalog.observe(viewLifecycleOwner, Observer {
-            it?.let { sortOrder ->
-
-                binding.content.sortCatalogRv.setOnClickListener {
-                    val dialog = SelectSortAlertDialogFragment.newInstance(sortOrder, R.string.title_sort_catalog)
-                    dialog.onOk = {
-                        val sort = dialog.selected
-                        viewModel.takeAction(SettingGeneralAction.SortCatalog(sort))
-                    }
-                    requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
-                }
-                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(sortOrder)
-            }
-        })
-
-        viewModel.favUnits.observe(viewLifecycleOwner, Observer {
-          it?.let { units ->
-            val description = FavoriteUnitsFormatter().createDescription(units)
-              binding.content.favoriteUnitsDescription.text = description
-          }
-        })
+    private fun navigateToManualSortCatalog() {
+        (activity as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_manualSortCatalogFragment)
     }
 
     private fun getTitleForSortOption(sortOption: SortOrder) = when (sortOption) {
@@ -269,23 +217,11 @@ class SettingGeneralFragment : Fragment() {
     }
 
     private fun showShareApp() {
-        val title=getString(R.string.app_name)
-        val message = getString(R.string.share_us_message)
-
-        ShareCompat.IntentBuilder.from(requireActivity())
+        ShareCompat.IntentBuilder(requireContext())
             .setType("text/plain")
-            .setChooserTitle(title)
-            .setText(message + activity?.packageName)
+            .setChooserTitle(getString(R.string.app_name))
+            .setText(getString(R.string.share_us_message) + activity?.packageName)
             .startChooser()
-    }
-
-    private fun setupViewModel() {
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = InjectorUtils.provideViewModelFactory(application)
-        viewModel = ViewModelProvider(
-          this,
-          viewModelFactory
-        )[SettingGeneralViewModel::class.java]
     }
 
     private fun goBack() {
@@ -294,7 +230,7 @@ class SettingGeneralFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshFavsUnits()
+        binding.content.favoriteUnitsDescription.text = FavoriteUnitsFormatter().createDescription(prefs.readFavUnits())
     }
 
     override fun onDestroyView() {

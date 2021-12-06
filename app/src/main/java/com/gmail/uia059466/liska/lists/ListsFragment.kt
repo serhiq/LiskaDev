@@ -192,7 +192,7 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
     private fun displayDialogSort() {
         val dialog = SelectSortAlertDialogFragment.newInstance(viewModel._sortOrder,R.string.title_sort_list)
         dialog.onOk = {
-            val sort = dialog.selected
+            val sort = dialog.selectedSort
             viewModel.takeAction(ListsAction.SortList(sort))
         }
         requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
