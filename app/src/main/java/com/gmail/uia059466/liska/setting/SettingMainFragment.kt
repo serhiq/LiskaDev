@@ -1,22 +1,20 @@
 package com.gmail.uia059466.liska.setting
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.gmail.uia059466.liska.Mode
+import com.gmail.uia059466.liska.LiskaApplication
 import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.databinding.SettingMainFragmentBinding
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
-import com.gmail.uia059466.liska.lists.sortorder.SelectSortAlertDialogFragment
+import com.gmail.uia059466.liska.lists.sortorder.SortDialog
 import com.gmail.uia059466.liska.lists.sortorder.SortOrder
 import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivity
@@ -25,7 +23,7 @@ import com.gmail.uia059466.liska.selectunit.SelectAdapter
 import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOptionDialog
 import com.gmail.uia059466.liska.setting.themes.SelectNightModeDialogFragment
 
-class SettingGeneralFragment : Fragment() {
+class SettingMainFragment : Fragment() {
 
     private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
 
@@ -39,7 +37,17 @@ class SettingGeneralFragment : Fragment() {
         _binding = SettingMainFragmentBinding.inflate(inflater, container, false)
 
         setupAppBar()
+        configureViews()
+        setupOnBackPressed()
+        setHasOptionsMenu(true)
+        return binding.root
+    }
+    private fun setupAppBar() {
+        val title = getString(R.string.setting_app_bar_label)
+        (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
+    }
 
+    private fun configureViews() {
         binding.content.isMovedCheckedSwitch.isChecked = prefs.isMovedChecked
         binding.content.isMovedCheckedSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.isMovedChecked = isChecked
@@ -63,59 +71,58 @@ class SettingGeneralFragment : Fragment() {
             (requireActivity() as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_aboutFragment)
         }
 
-        binding.content.catalogOptionDescription.text = getString(prefs.catalogDisplayOption.title)
         binding.content.catalogOptionRv.setOnClickListener { showDialogCatalogOption() }
+        binding.content.catalogOptionDescription.text = getString(prefs.catalogDisplayOption.title)
 
         binding.content.themesRl.setOnClickListener {(activity as MainActivityImpl).showThemes() }
         binding.content.currentThemeTv.text = getString((activity as MainActivityImpl).currentTheme.title)
 
         binding.content.nightModeRl.setOnClickListener { showDialogNightMode() }
-
         binding.content.nightModeTv.text = getString(prefs.nightMode.title)
 
-        binding.content.sortListRv.setOnClickListener {
-            val dialog = SelectSortAlertDialogFragment.newInstance(
-                prefs.sortOrderCatalog,
-                R.string.title_sort_catalog
-            )
+        binding.content.sortListRv.setOnClickListener { showSortListDialog() }
+        binding.content.sortListDescriptionTv.text = getString(prefs.sortOrderList.title)
 
-            dialog.onOk = {
-                prefs.saveSortOrderList(dialog.selectedSort)
-                if (dialog.selectedSort == SortOrder.MANUAL_SORT) navigateToManualSortList()
-                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(dialog.selectedSort)
-            }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
-        }
+        binding.content.sortCatalogRv.setOnClickListener { showSortCatalogDialog() }
+        binding.content.sortCatalogDescriptionTv.text = getString(prefs.sortOrderCatalog.title)
 
-        binding.content.sortListDescriptionTv.text = getTitleForSortOption(prefs.sortOrder)
-
-        binding.content.sortCatalogRv.setOnClickListener {
-            val dialog = SelectSortAlertDialogFragment.newInstance(
-                prefs.sortOrderCatalog,
-                R.string.title_sort_catalog
-            )
-
-            dialog.onOk = {
-                prefs.saveSortOrderCatalog(dialog.selectedSort)
-                if (dialog.selectedSort == SortOrder.MANUAL_SORT) navigateToManualSortCatalog()
-                binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(dialog.selectedSort)
-            }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
-        }
-        binding.content.sortCatalogDescriptionTv.text = getTitleForSortOption(prefs.sortOrderCatalog)
         val description = FavoriteUnitsFormatter().createDescription(prefs.readFavUnits())
         binding.content.favoriteUnitsDescription.text = description
-        setupOnBackPressed()
-        setHasOptionsMenu(true)
+    }
 
-        return binding.root
+    private fun showSortCatalogDialog() {
+        val dialog = SortDialog.newInstance(
+            prefs.sortOrderCatalog,
+            R.string.title_sort_catalog
+        )
+
+        dialog.onOk = {
+            prefs.saveSortOrderCatalog(dialog.selected!!)
+            if (dialog.selected == SortOrder.MANUAL_SORT) navigateToManualSortCatalog()
+            binding.content.sortCatalogDescriptionTv.text = getString(prefs.sortOrderCatalog.title)
+        }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
+    }
+
+    private fun showSortListDialog() {
+        val dialog = SortDialog.newInstance(
+            prefs.sortOrderCatalog,
+            R.string.title_sort_list
+        )
+
+        dialog.onOk = {
+            prefs.saveSortOrderList(dialog.selected!!)
+            if (dialog.selected == SortOrder.MANUAL_SORT) navigateToManualSortList()
+            binding.content.sortListDescriptionTv.text = getString(prefs.sortOrderList.title)
+        }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
     }
 
     private fun showDialogNightMode() {
         val dialog = SelectNightModeDialogFragment.newInstance(prefs.nightMode)
         dialog.onOk = {
             dialog.selected?.let {
-                switchToMode(it)
+                (requireActivity().application as LiskaApplication).switchToMode(it)
                 prefs.nightMode = it
             }
             dialog.dismiss()
@@ -133,30 +140,10 @@ class SettingGeneralFragment : Fragment() {
         requireActivity().supportFragmentManager.let { dialog.show(it, null) }
     }
 
-    private fun switchToMode(selectedNow: Mode) {
-       val mode= when(selectedNow){
-           Mode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-           Mode.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-           Mode.SYSTEM -> if (isPreAndroid10()) {
-              AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-           } else {
-               AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-           }
-       }
-        AppCompatDelegate.setDefaultNightMode(mode)
-
-    }
-    private fun isPreAndroid10() = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
-
     private fun displaySelectFavoriteUnits() {
         val action=R.id.action_settingGeneralFragment_to_selectUnitsFragment
         val bundle = bundleOf("mode" to SelectAdapter.MODE_FAVORITES)
         findNavController().navigate(action, bundle)
-    }
-
-    private fun setupAppBar() {
-        val title = getString(R.string.setting_app_bar_label)
-        (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
     }
 
     private fun setupOnBackPressed() {
@@ -186,13 +173,6 @@ class SettingGeneralFragment : Fragment() {
 
     private fun navigateToManualSortCatalog() {
         (activity as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_manualSortCatalogFragment)
-    }
-
-    private fun getTitleForSortOption(sortOption: SortOrder) = when (sortOption) {
-      SortOrder.LAST_MODIFIED -> getString(R.string.last_modificated)
-      SortOrder.A_Z -> getString(R.string.sort_alphabetical)
-      SortOrder.NEWEST_FIRST ->getString(R.string.sort_date_added)
-      SortOrder.MANUAL_SORT -> getString(R.string.sort_by_human)
     }
 
     private fun showShareApp() {

@@ -6,12 +6,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.gmail.uia059466.liska.R
 
-class SelectSortAlertDialogFragment : AppCompatDialogFragment() {
-  
+class SortDialog : AppCompatDialogFragment() {
+
+  var selected: SortOrder? = null
+
   var onOk: (() -> Unit)? = null
-  var selectedSort = SortOrder.A_Z
-  
-  
+
   override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
     val sortTitleInt = arguments?.getInt(EXTRA_TITLE_SORT_INT) ?: R.string.title_sort_default
     val sortTitle = getString(sortTitleInt)
@@ -35,7 +35,7 @@ class SelectSortAlertDialogFragment : AppCompatDialogFragment() {
                     checkedItem
                                  ) { dialogInterface, i ->
               val mumu = sorted[i]
-              selectedSort = SortOrder.fromString(mumu)
+              selected = SortOrder.fromString(mumu)
               onOk?.invoke()
               dialogInterface.dismiss()
             }.create()
@@ -55,15 +55,15 @@ class SelectSortAlertDialogFragment : AppCompatDialogFragment() {
     private const val EXTRA_SORT_OPTION = "sort_option"
     private const val EXTRA_TITLE_SORT_INT = "sort_title"
     
-    fun newInstance(textSortOption: SortOrder, titleInt: Int): SelectSortAlertDialogFragment {
-      val dialog = SelectSortAlertDialogFragment()
-      val args = Bundle().apply {
-        putString(EXTRA_SORT_OPTION, textSortOption.rawValue)
-        putInt(EXTRA_TITLE_SORT_INT, titleInt)
+    fun newInstance(textSortOption: SortOrder, titleInt: Int): SortDialog {
+        return SortDialog().apply {
+          arguments = Bundle().apply {
+            putString(EXTRA_SORT_OPTION, textSortOption.rawValue)
+            putInt(EXTRA_TITLE_SORT_INT, titleInt)
+          }
+        }
       }
-      dialog.arguments = args
-      return dialog
     }
   }
-}
+
 

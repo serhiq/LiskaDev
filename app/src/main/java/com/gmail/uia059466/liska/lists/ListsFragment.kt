@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
-import com.gmail.uia059466.liska.lists.sortorder.SelectSortAlertDialogFragment
+import com.gmail.uia059466.liska.lists.sortorder.SortDialog
 import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivity
 import com.gmail.uia059466.liska.main.MainActivityImpl
@@ -190,10 +190,10 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
     }
 
     private fun displayDialogSort() {
-        val dialog = SelectSortAlertDialogFragment.newInstance(viewModel._sortOrder,R.string.title_sort_list)
+        val dialog = SortDialog.newInstance(viewModel._sortOrder,R.string.title_sort_list)
         dialog.onOk = {
-            val sort = dialog.selectedSort
-            viewModel.takeAction(ListsAction.SortList(sort))
+            val sort = dialog.selected
+            viewModel.takeAction(ListsAction.SortList(sort!!))
         }
         requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
     }

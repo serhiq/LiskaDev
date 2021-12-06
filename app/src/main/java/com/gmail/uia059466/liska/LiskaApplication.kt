@@ -1,7 +1,6 @@
 package com.gmail.uia059466.liska
 
 import android.app.Application
-import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.gmail.uia059466.liska.domain.CatalogRepository
@@ -28,7 +27,8 @@ class LiskaApplication:Application() {
 
     }
     private fun isPreAndroid10() = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
-    private fun switchToMode(selectedNow: Mode) {
+
+    fun switchToMode(selectedNow: Mode) {
         val mode= when(selectedNow){
             Mode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
             Mode.DARK -> AppCompatDelegate.MODE_NIGHT_YES

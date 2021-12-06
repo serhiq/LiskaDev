@@ -11,7 +11,6 @@ import com.gmail.uia059466.liska.setting.themes.Theme
 import com.gmail.uia059466.liska.widget.listwidget.WidgetConfig
 import com.gmail.uia059466.liska.widget.listwidget.WidgetConfigRepository
 
-private const val SORT_ORDER_KEY = "sort_order"
 
 class UserPreferencesRepositoryImpl private constructor(context: Context) : UserRepository,
                                                                             UnitsRepository,
@@ -22,41 +21,33 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
   private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
   
   override fun readSortOrderList(): SortOrder {
-    return sortOrder
+    return sortOrderList
   }
   
   override fun saveSortOrderList(newSortOrder: SortOrder) {
-    updateSortOrder(newSortOrder)
+    sortOrderList = newSortOrder
   }
-  
-  val sortOrder: SortOrder
-    get() {
-      val order = prefs.getString(SORT_ORDER_KEY, SortOrder.A_Z.name)
-      return SortOrder.valueOf(order ?: SortOrder.A_Z.name)
-    }
-  
-  private fun updateSortOrder(sortOrder: SortOrder) {
-    prefs.edit().putString(SORT_ORDER_KEY, sortOrder.name).apply()
-  }
-  
+
+  var sortOrderList: SortOrder
+    get() = prefs.getString(PREFS_SORT_ORDER_LIST,null) ?.let {  SortOrder.valueOf(it) } ?: SortOrder.A_Z
+    set(value) = prefs.edit { putString(PREFS_SORT_ORDER_LIST, value.name) }
+
+  var sortOrderCatalog: SortOrder
+    get() = prefs.getString(PREFS_SORT_ORDER_CATALOG,null) ?.let {  SortOrder.valueOf(it) } ?: SortOrder.A_Z
+    set(value) = prefs.edit { putString(PREFS_SORT_ORDER_CATALOG, value.name) }
+
+
   var catalogDisplayOption: CatalogDisplayOption
     get() = prefs.getString(PREFS_CATALOG_DISPLAY_OPTION, null)?.let { CatalogDisplayOption.fromString(it) } ?: CatalogDisplayOption.TWO_VAR
     set(value) = prefs.edit { putString(PREFS_CATALOG_DISPLAY_OPTION, value.rawValue) }
 
-  private val SORT_ORDER_KEY_CATALOG = "sort_order"
-  
-  val sortOrderCatalog: SortOrder
-    get() {
-      val order = prefs.getString(SORT_ORDER_KEY_CATALOG, SortOrder.LAST_MODIFIED.name)
-      return SortOrder.valueOf(order ?: SortOrder.LAST_MODIFIED.name)
-    }
-  
+
   override fun readSortOrderCatalog(): SortOrder {
     return sortOrderCatalog
   }
   
   override fun saveSortOrderCatalog(newSortOrder: SortOrder) {
-    prefs.edit().putString(SORT_ORDER_KEY_CATALOG, newSortOrder.name).apply()
+    sortOrderCatalog = newSortOrder
   }
   
   private val PREF_IS_MOVING_CHECKED = "moving_checked"
@@ -339,5 +330,8 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
     private const val PREFS_CATALOG_DISPLAY_OPTION = "select_sort_key"
     private const val PREFS_CURRENT_THEME = "themes"
     private const val PREF_NIGHT_MODE = "night_mode"
+
+    private const val PREFS_SORT_ORDER_LIST = "sort_order"
+    private const val PREFS_SORT_ORDER_CATALOG = "sort_order_catalog"
   }
 }

@@ -1,10 +1,13 @@
 package com.gmail.uia059466.liska.lists.sortorder
 
-enum class SortOrder(val rawValue:String) {
-  A_Z("a-z"),
-  NEWEST_FIRST("new_first"),
-  LAST_MODIFIED("last"),
-  MANUAL_SORT("manual_sort");
+import androidx.annotation.StringRes
+import com.gmail.uia059466.liska.R
+
+enum class SortOrder(val rawValue:String , @StringRes val title: Int) {
+  A_Z("a-z", R.string.sort_alphabetical),
+  NEWEST_FIRST("new_first", R.string.sort_date_added),
+  LAST_MODIFIED("last", R.string.last_modificated),
+  MANUAL_SORT("manual_sort", R.string.sort_by_human);
 
   companion object {
     fun fromString(raw: String): SortOrder {
