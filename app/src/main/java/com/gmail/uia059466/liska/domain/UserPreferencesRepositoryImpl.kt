@@ -177,23 +177,12 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
     get() = prefs.getString(PREFS_CURRENT_THEME, null)?.let { Theme.fromString(it) } ?: Theme.BLUE
     set(value) = prefs.edit { putString(PREFS_CURRENT_THEME, value.rawValue) }
 
+  var nightMode: Mode
+    get() = prefs.getString(PREF_NIGHT_MODE, null)?.let { Mode.fromString(it) } ?: Mode.SYSTEM
+    set(value) = prefs.edit { putString(PREF_NIGHT_MODE, value.rawValue) }
 
-
-
-  
-  private val PREF_NITGHT_MODE = "night_mode"
-  var nightMode: String
-    get() = prefs.getString(PREF_NITGHT_MODE, Mode.SYSTEM.rawValue).toString()
-    set(value) {
-      prefs.edit().putString(PREF_NITGHT_MODE, value).apply()
-    }
-  
-  fun getCurrentNightMode(): Mode {
-    return Mode.fromString(nightMode)
-  }
 
 //    widget setting  START
-  
   override fun setupDeletedListForConfig(idList: Long) {
     val configs = requestWidgetConfig()
     for (config in configs) {
@@ -349,5 +338,6 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
 
     private const val PREFS_CATALOG_DISPLAY_OPTION = "select_sort_key"
     private const val PREFS_CURRENT_THEME = "themes"
+    private const val PREF_NIGHT_MODE = "night_mode"
   }
 }

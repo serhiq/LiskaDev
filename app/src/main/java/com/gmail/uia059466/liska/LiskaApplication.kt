@@ -23,9 +23,8 @@ class LiskaApplication:Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         val prefs = UserPreferencesRepositoryImpl.getInstance(this)
-        switchToMode(prefs.getCurrentNightMode())
+        switchToMode(prefs.nightMode)
 
     }
     private fun isPreAndroid10() = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q

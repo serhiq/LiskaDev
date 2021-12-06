@@ -69,17 +69,9 @@ class SettingGeneralFragment : Fragment() {
         binding.content.themesRl.setOnClickListener {(activity as MainActivityImpl).showThemes() }
         binding.content.currentThemeTv.text = getString((activity as MainActivityImpl).currentTheme.title)
 
-        binding.content.nightModeRl.setOnClickListener {
-            val dialog = SelectNightModeDialogFragment.newInstance(prefs.getCurrentNightMode())
-            dialog.onOk = {
-                switchToMode(dialog.selectedNow)
-                prefs.nightMode = dialog.selectedNow.rawValue
-                dialog.dismiss()
-            }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "night_mode_dialog") }
-       }
+        binding.content.nightModeRl.setOnClickListener { showDialogNightMode() }
 
-        binding.content.nightModeTv.text = getTitle(prefs.getCurrentNightMode())
+        binding.content.nightModeTv.text = getString(prefs.nightMode.title)
 
         binding.content.sortListRv.setOnClickListener {
             val dialog = SelectSortAlertDialogFragment.newInstance(
@@ -119,6 +111,18 @@ class SettingGeneralFragment : Fragment() {
         return binding.root
     }
 
+    private fun showDialogNightMode() {
+        val dialog = SelectNightModeDialogFragment.newInstance(prefs.nightMode)
+        dialog.onOk = {
+            dialog.selected?.let {
+                switchToMode(it)
+                prefs.nightMode = it
+            }
+            dialog.dismiss()
+        }
+        requireActivity().supportFragmentManager.let { dialog.show(it, "night_mode_dialog") }
+    }
+
     private fun showDialogCatalogOption() {
         val dialog = CatalogDisplayOptionDialog.newInstance(prefs.catalogDisplayOption)
         dialog.onOk = {
@@ -143,14 +147,6 @@ class SettingGeneralFragment : Fragment() {
 
     }
     private fun isPreAndroid10() = Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
-
-    private fun getTitle(nightMode: Mode): String {
-        return when(nightMode){
-            Mode.LIGHT -> getString(R.string.setting_night_mode_disabled)
-            Mode.DARK -> getString(R.string.setting_night_mode_enabled)
-            Mode.SYSTEM -> getString(R.string.setting_night_mode_system)
-        }
-    }
 
     private fun displaySelectFavoriteUnits() {
         val action=R.id.action_settingGeneralFragment_to_selectUnitsFragment
