@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -454,16 +453,14 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
     lateinit var currentTheme: Theme
 
     private fun setupAppTheme() {
-        val g = UserPreferencesRepositoryImpl.getInstance(this)
-        currentTheme = g.getCurrentTheme()
+        currentTheme = UserPreferencesRepositoryImpl.getInstance(this).currentTheme
         setTheme(currentTheme)
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.refreshList()
-        val g = UserPreferencesRepositoryImpl.getInstance(this)
-        val selectedTheme = g.getCurrentTheme()
+        val selectedTheme = UserPreferencesRepositoryImpl.getInstance(this).currentTheme
         if (currentTheme != selectedTheme) recreate()
     }
 
@@ -476,20 +473,17 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
         }
     }
 
-    fun setThemeAndRecreateActivity(theme: Theme) {
-        setTheme(theme)
-        recreate()
-    }
-
     fun showThemes() {
         val dialog = SelectThemeDialogFragment.newInstance(currentTheme)
         dialog.onOk = {
-            UserPreferencesRepositoryImpl.getInstance(this).current_theme = dialog.selectedNow.rawValue
-            setTheme(dialog.selectedNow)
-            recreate()
+            dialog.selected?.let {
+                UserPreferencesRepositoryImpl.getInstance(this).currentTheme = it
+                setTheme(it)
+                recreate()
+            }
             dialog.dismiss()
         }
-        supportFragmentManager.let { dialog.show(it, "editWord") }
+        supportFragmentManager.let { dialog.show(it, null) }
     }
 
     fun isOpenNavigationDrawer(): Boolean {

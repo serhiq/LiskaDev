@@ -13,7 +13,7 @@ class CatalogDisplayOptionDialog : AppCompatDialogFragment() {
     var onOk: (() -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val fromArg = requireNotNull(arguments?.getString(CURRENT_OPTION)?.let { CatalogDisplayOption.fromString(it) })
+        val current = requireNotNull(arguments?.getString(ARG_CURRENT_OPTION)?.let { CatalogDisplayOption.fromString(it) })
         val options = CatalogDisplayOption.values()
 
         return AlertDialog.Builder(requireContext())
@@ -21,7 +21,7 @@ class CatalogDisplayOptionDialog : AppCompatDialogFragment() {
             .setNegativeButton(android.R.string.cancel) { _, _ -> 0}
             .setSingleChoiceItems(
                 options.map { getString(it.title)}.toTypedArray(),
-                fromArg.ordinal
+                current.ordinal
             ) { dialog, position ->
                 selected = options[position]
                 onOk?.invoke()
@@ -31,12 +31,12 @@ class CatalogDisplayOptionDialog : AppCompatDialogFragment() {
     }
 
     companion object {
-        private const val CURRENT_OPTION = "current_option"
+        private const val ARG_CURRENT_OPTION = "current_option"
 
-        fun newInstance(currentTheme: CatalogDisplayOption): CatalogDisplayOptionDialog {
+        fun newInstance(option: CatalogDisplayOption): CatalogDisplayOptionDialog {
             return CatalogDisplayOptionDialog().apply {
                 arguments = Bundle().apply {
-                    putString(CURRENT_OPTION, currentTheme.rawValue)
+                    putString(ARG_CURRENT_OPTION, option.rawValue)
                 }
             }
         }

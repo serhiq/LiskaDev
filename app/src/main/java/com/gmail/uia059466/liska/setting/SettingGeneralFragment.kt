@@ -24,14 +24,13 @@ import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.selectunit.SelectAdapter
 import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOptionDialog
 import com.gmail.uia059466.liska.setting.themes.SelectNightModeDialogFragment
-import com.gmail.uia059466.liska.setting.themes.Theme
 
 class SettingGeneralFragment : Fragment() {
 
+    private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
+
     private var _binding: SettingMainFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
 
     override fun onCreateView(
       inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +67,7 @@ class SettingGeneralFragment : Fragment() {
         binding.content.catalogOptionRv.setOnClickListener { showDialogCatalogOption() }
 
         binding.content.themesRl.setOnClickListener {(activity as MainActivityImpl).showThemes() }
-        binding.content.currentThemeTv.text = getTitleForTheme((activity as MainActivityImpl).currentTheme)
+        binding.content.currentThemeTv.text = getString((activity as MainActivityImpl).currentTheme.title)
 
         binding.content.nightModeRl.setOnClickListener {
             val dialog = SelectNightModeDialogFragment.newInstance(prefs.getCurrentNightMode())
@@ -163,14 +162,6 @@ class SettingGeneralFragment : Fragment() {
         val title = getString(R.string.setting_app_bar_label)
         (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
     }
-
-    private fun getTitleForTheme(theme: Theme) = when (theme) {
-      Theme.BLUE -> getString(R.string.theme_light)
-      Theme.RED -> getString(R.string.theme_dark)
-      Theme.MINT -> getString(R.string.theme_mint)
-      Theme.GRAY -> getString(R.string.theme_gray)
-    }
-
 
     private fun setupOnBackPressed() {
         requireActivity().onBackPressedDispatcher

@@ -171,15 +171,15 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
   override fun saveIsDisplayFolder(isDisplayFolder: Boolean) {
     isDisplayFolderInCatalog = isDisplayFolder
   }
-  
-  private val PREF_THEME = "themes"
-  var current_theme: String
-    get() = prefs.getString(PREF_THEME, Theme.BLUE.rawValue).toString()
-    set(value) = prefs.edit().putString(PREF_THEME, value).apply()
-  
-  fun getCurrentTheme(): Theme {
-    return Theme.fromString(current_theme)
-  }
+
+
+  var currentTheme: Theme
+    get() = prefs.getString(PREFS_CURRENT_THEME, null)?.let { Theme.fromString(it) } ?: Theme.BLUE
+    set(value) = prefs.edit { putString(PREFS_CURRENT_THEME, value.rawValue) }
+
+
+
+
   
   private val PREF_NITGHT_MODE = "night_mode"
   var nightMode: String
@@ -348,6 +348,6 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
     }
 
     private const val PREFS_CATALOG_DISPLAY_OPTION = "select_sort_key"
-
+    private const val PREFS_CURRENT_THEME = "themes"
   }
 }
