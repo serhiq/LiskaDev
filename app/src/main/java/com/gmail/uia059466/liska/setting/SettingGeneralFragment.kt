@@ -22,8 +22,7 @@ import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivity
 import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.selectunit.SelectAdapter
-import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogDialogFragment
-import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogOption
+import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOptionDialog
 import com.gmail.uia059466.liska.setting.themes.SelectNightModeDialogFragment
 import com.gmail.uia059466.liska.setting.themes.Theme
 
@@ -65,19 +64,8 @@ class SettingGeneralFragment : Fragment() {
             (requireActivity() as MainActivity).navigateTo(R.id.action_settingGeneralFragment_to_aboutFragment)
         }
 
-        binding.content.catalogOptionDescription.text = getTitleForOption(prefs.current_option)
-
-        binding.content.catalogOptionRv.setOnClickListener {
-
-            val dialog = SelectCatalogDialogFragment.newInstance(prefs.current_option)
-            dialog.onOk = {
-                prefs.updateCurrentOption(dialog.selectedNow)
-                binding.content.catalogOptionDescription.text = getTitleForOption(dialog.selectedNow)
-
-                dialog.dismiss()
-            }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "selectCatalog") }
-        }
+        binding.content.catalogOptionDescription.text = getString(prefs.catalogDisplayOption.title)
+        binding.content.catalogOptionRv.setOnClickListener { showDialogCatalogOption() }
 
         binding.content.themesRl.setOnClickListener {(activity as MainActivityImpl).showThemes() }
         binding.content.currentThemeTv.text = getTitleForTheme((activity as MainActivityImpl).currentTheme)
@@ -132,6 +120,16 @@ class SettingGeneralFragment : Fragment() {
         return binding.root
     }
 
+    private fun showDialogCatalogOption() {
+        val dialog = CatalogDisplayOptionDialog.newInstance(prefs.catalogDisplayOption)
+        dialog.onOk = {
+            dialog.selected?.let { prefs.catalogDisplayOption = it }
+            binding.content.catalogOptionDescription.text = getString(prefs.catalogDisplayOption.title)
+            dialog.dismiss()
+        }
+        requireActivity().supportFragmentManager.let { dialog.show(it, null) }
+    }
+
     private fun switchToMode(selectedNow: Mode) {
        val mode= when(selectedNow){
            Mode.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
@@ -164,12 +162,6 @@ class SettingGeneralFragment : Fragment() {
     private fun setupAppBar() {
         val title = getString(R.string.setting_app_bar_label)
         (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
-    }
-
-    private fun getTitleForOption(theme: SelectCatalogOption) = when (theme) {
-        SelectCatalogOption.CHECKBOX -> getString(R.string.dialog_select)
-        SelectCatalogOption.SELECT-> getString(R.string.dialog_quantity)
-        SelectCatalogOption.TWO_VAR-> getString(R.string.dialog_two)
     }
 
     private fun getTitleForTheme(theme: Theme) = when (theme) {

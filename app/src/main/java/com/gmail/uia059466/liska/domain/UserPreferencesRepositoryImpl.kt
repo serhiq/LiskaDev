@@ -2,10 +2,11 @@ package com.gmail.uia059466.liska.domain
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.gmail.uia059466.liska.Mode
 import com.gmail.uia059466.liska.addeditcatalog.units.UnitsRepository
 import com.gmail.uia059466.liska.lists.sortorder.SortOrder
-import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogOption
+import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOption
 import com.gmail.uia059466.liska.setting.themes.Theme
 import com.gmail.uia059466.liska.widget.listwidget.WidgetConfig
 import com.gmail.uia059466.liska.widget.listwidget.WidgetConfigRepository
@@ -38,22 +39,10 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
     prefs.edit().putString(SORT_ORDER_KEY, sortOrder.name).apply()
   }
   
-  private val SELECT_SORT_KEY = "select_sort_key"
-  
-  val current_option: SelectCatalogOption
-    get() {
-      val order = prefs.getString(SELECT_SORT_KEY, SelectCatalogOption.TWO_VAR.rawValue)
-      return if (order != null) {
-        SelectCatalogOption.fromString(order)
-      } else {
-        SelectCatalogOption.TWO_VAR
-      }
-    }
-  
-  fun updateCurrentOption(option: SelectCatalogOption) {
-    prefs.edit().putString(SELECT_SORT_KEY, option.rawValue).apply()
-  }
-  
+  var catalogDisplayOption: CatalogDisplayOption
+    get() = prefs.getString(PREFS_CATALOG_DISPLAY_OPTION, null)?.let { CatalogDisplayOption.fromString(it) } ?: CatalogDisplayOption.TWO_VAR
+    set(value) = prefs.edit { putString(PREFS_CATALOG_DISPLAY_OPTION, value.rawValue) }
+
   private val SORT_ORDER_KEY_CATALOG = "sort_order"
   
   val sortOrderCatalog: SortOrder
@@ -357,5 +346,8 @@ class UserPreferencesRepositoryImpl private constructor(context: Context) : User
         instance
       }
     }
+
+    private const val PREFS_CATALOG_DISPLAY_OPTION = "select_sort_key"
+
   }
 }

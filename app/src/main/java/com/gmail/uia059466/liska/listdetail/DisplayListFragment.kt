@@ -24,12 +24,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.data.ListDisplay
-import com.gmail.uia059466.liska.data.database.clearSelected
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
 import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.selectfromcatalog.CatalogSelectFragment
-import com.gmail.uia059466.liska.setting.selectcatalog.SelectCatalogOption
+import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOption
 import com.gmail.uia059466.liska.utils.InjectorUtils
 import com.gmail.uia059466.liska.utils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +45,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
   private lateinit var saveButton:ImageButton
   
   private lateinit var caption:TextView
-  private lateinit var optionCatalogSelect:SelectCatalogOption
+  private lateinit var optionCatalogSelect:CatalogDisplayOption
   private lateinit var content:ConstraintLayout
 
   override fun onCreateView(
@@ -67,7 +66,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
     content = view.findViewById(R.id.list_detailed_content)
 
     val pref= UserPreferencesRepositoryImpl.getInstance(requireContext())
-    optionCatalogSelect=pref.current_option
+    optionCatalogSelect=pref.catalogDisplayOption
 
     setupViewModel()
     setupRecyclerView()
@@ -370,7 +369,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
 
       when(optionCatalogSelect){
 
-        SelectCatalogOption.CHECKBOX ->{
+        CatalogDisplayOption.CHECKBOX ->{
           val addFromCatalog=menu.findItem(R.id.menu_add_from_catalog)
           addFromCatalog.isVisible = true
 
@@ -378,7 +377,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
           addWithQuantity.isVisible = false
 
         }
-        SelectCatalogOption.SELECT ->{
+        CatalogDisplayOption.SELECT ->{
           val addFromCatalog=menu.findItem(R.id.menu_add_from_catalog)
           addFromCatalog.isVisible = false
 
@@ -386,7 +385,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
           addWithQuantity.isVisible = true
 
         }
-        SelectCatalogOption.TWO_VAR->{
+        CatalogDisplayOption.TWO_VAR->{
           val addFromCatalog=menu.findItem(R.id.menu_add_from_catalog)
           addFromCatalog.isVisible = true
 
