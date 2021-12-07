@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import com.gmail.uia059466.liska.Mode
+import com.gmail.uia059466.liska.data.Mode
 import com.gmail.uia059466.liska.R
 
 class SelectNightModeDialogFragment : AppCompatDialogFragment() {

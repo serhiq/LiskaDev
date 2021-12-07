@@ -3,6 +3,7 @@ package com.gmail.uia059466.liska
 import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.gmail.uia059466.liska.data.Mode
 import com.gmail.uia059466.liska.domain.CatalogRepository
 import com.gmail.uia059466.liska.domain.ListRepository
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl

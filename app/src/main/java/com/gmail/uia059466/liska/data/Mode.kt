@@ -1,6 +1,7 @@
-package com.gmail.uia059466.liska
+package com.gmail.uia059466.liska.data
 
 import androidx.annotation.StringRes
+import com.gmail.uia059466.liska.R
 
 enum class Mode(val rawValue: String, @StringRes val title: Int) {
 

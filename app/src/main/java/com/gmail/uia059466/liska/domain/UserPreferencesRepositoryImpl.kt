@@ -3,7 +3,7 @@ package com.gmail.uia059466.liska.domain
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.gmail.uia059466.liska.Mode
+import com.gmail.uia059466.liska.data.Mode
 import com.gmail.uia059466.liska.addeditcatalog.units.UnitsRepository
 import com.gmail.uia059466.liska.lists.sortorder.SortOrder
 import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOption
