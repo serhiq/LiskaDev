@@ -5,53 +5,47 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.gmail.uia059466.liska.R
+import com.gmail.uia059466.liska.databinding.FeedbackFragmentBinding
 import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.utils.hideKeyboard
 import com.gmail.uia059466.liska.utils.showKeyboard
 import java.util.*
 
-const val emailId="rovc71217@protonmail.com"
-
 class FeedbackFragment:Fragment()  {
 
-  private lateinit var feedbackEditText: EditText
+  private var _binding: FeedbackFragmentBinding? = null
+  private val binding get() = _binding!!
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-  }
-  
   override fun onCreateView(
           inflater: LayoutInflater, container: ViewGroup?,
           savedInstanceState: Bundle?
-                           ): View? {
-    
-    
-    val view = inflater.inflate(
-            R.layout.feedback_fragment,
-            container,
-            false)
+                           ): View {
 
-    feedbackEditText=view.findViewById(R.id.feedback_et)
+    _binding = FeedbackFragmentBinding.inflate(inflater, container, false)
 
     setupAppBar()
-
     setupOnBackPressed()
     setHasOptionsMenu(true)
-    return view
+    return binding.root
   }
+
+  private fun setupAppBar() {
+    val title=getString(R.string.feedback_app_bar_label)
+    (activity as MainActivityImpl).renderAppbar(AppBarUiState.ArrayWithTitle(title))
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     openKeyboard()
   }
 
   private fun openKeyboard() {
-    feedbackEditText.requestFocus()
+    binding.feedbackEt.requestFocus()
     showKeyboard()
   }
 
@@ -60,19 +54,11 @@ class FeedbackFragment:Fragment()  {
     inflater.inflate(R.menu.feedback, menu)
   }
 
-
-  private fun setupAppBar() {
-    val mainActivity = activity as MainActivityImpl
-    val title=getString(R.string.feedback_app_bar_label)
-    mainActivity.renderAppbar(AppBarUiState.ArrayWithTitle(title))
-  }
-  
-
   private fun setupOnBackPressed() {
     requireActivity().onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
               override fun handleOnBackPressed() {
-                goBack()
+                findNavController().navigateUp()
               }
             })
   }
@@ -81,7 +67,7 @@ class FeedbackFragment:Fragment()  {
     when (item.itemId) {
       android.R.id.home -> {
         hideKeyboard()
-        goBack()
+        findNavController().navigateUp()
         return true
       }
       R.id.menu_send_feedback -> {
@@ -93,29 +79,23 @@ class FeedbackFragment:Fragment()  {
   }
 
   private fun checkAndSendFeedBack() {
-    val feedback= feedbackEditText.text.toString()
-    if (feedback.isNotBlank()){
-      sendEmail(feedback)
-    }else{
-      showDialogEmptyFeedback()
-    }
+    val feedback = binding.feedbackEt.text.toString()
+    if (feedback.isNotBlank()) sendEmail(feedback) else showDialogEmptyFeedback()
   }
 
   private fun sendEmail(body: String?) {
-    val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-    emailIntent.type = "text/plain"
-    emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(emailId))
-    emailIntent.putExtra(
-      Intent.EXTRA_SUBJECT,
-      getString(R.string.feedback_mail_subject)
+    val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+      type = "text/plain"
+      putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(emailId))
+      putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_mail_subject))
+      putExtra(Intent.EXTRA_TEXT, body)
+    }
+
+    startActivity(createEmailOnlyChooserIntent(
+      requireContext(),
+      emailIntent,
+      getString(R.string.send_feedback_two)
     )
-    emailIntent.putExtra(Intent.EXTRA_TEXT, body)
-    startActivity(
-      createEmailOnlyChooserIntent(
-        requireContext(),
-        emailIntent,
-        getString(R.string.send_feedback_two)
-      )
     )
   }
   private fun createEmailOnlyChooserIntent(
@@ -153,14 +133,15 @@ class FeedbackFragment:Fragment()  {
 
   private fun showDialogEmptyFeedback() {
     val dialog = EmptyFeedbackDialog()
-    requireActivity().supportFragmentManager.let {
-      dialog.show(
-        it, EmptyFeedbackDialog.TAG
-      )
-    }
+    dialog.show(requireActivity().supportFragmentManager, null)
   }
 
-  private fun goBack() {
-    findNavController().navigateUp()
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
+
+  companion object {
+    private const val emailId="rovc71217@protonmail.com"
   }
 }
