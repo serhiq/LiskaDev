@@ -101,7 +101,7 @@ class SettingMainFragment : Fragment() {
             if (dialog.selected == SortOrder.MANUAL_SORT) navigateToManualSortCatalog()
             binding.content.sortCatalogDescriptionTv.text = getString(prefs.sortOrderCatalog.title)
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun showSortListDialog() {
@@ -115,7 +115,7 @@ class SettingMainFragment : Fragment() {
             if (dialog.selected == SortOrder.MANUAL_SORT) navigateToManualSortList()
             binding.content.sortListDescriptionTv.text = getString(prefs.sortOrderList.title)
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "sort_catalog_dialog") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun showDialogNightMode() {
@@ -127,7 +127,7 @@ class SettingMainFragment : Fragment() {
             }
             dialog.dismiss()
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "night_mode_dialog") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun showDialogCatalogOption() {
@@ -137,7 +137,7 @@ class SettingMainFragment : Fragment() {
             binding.content.catalogOptionDescription.text = getString(prefs.catalogDisplayOption.title)
             dialog.dismiss()
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, null) }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     private fun displaySelectFavoriteUnits() {
@@ -150,7 +150,7 @@ class SettingMainFragment : Fragment() {
         requireActivity().onBackPressedDispatcher
             .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
               override fun handleOnBackPressed() {
-                goBack()
+                  findNavController().navigateUp()
               }
             })
     }
@@ -159,7 +159,7 @@ class SettingMainFragment : Fragment() {
         when (item.itemId) {
           android.R.id.home -> {
               if (!(activity as MainActivityImpl).isOpenNavigationDrawer()){
-                  goBack()
+                  findNavController().navigateUp()
               }
             return true
           }
@@ -181,10 +181,6 @@ class SettingMainFragment : Fragment() {
             .setChooserTitle(getString(R.string.app_name))
             .setText(getString(R.string.share_us_message) + activity?.packageName)
             .startChooser()
-    }
-
-    private fun goBack() {
-        findNavController().navigateUp()
     }
 
     override fun onResume() {

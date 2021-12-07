@@ -248,7 +248,7 @@ class CatalogSelectFragment : Fragment(), CatalogSelectListener {
 
             dialog.dismiss()
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     override fun onPause() {

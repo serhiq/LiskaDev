@@ -195,7 +195,7 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
             val sort = dialog.selected
             viewModel.takeAction(ListsAction.SortList(sort!!))
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "sort") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
 
     override fun onListClicked(id:Long) {

@@ -209,7 +209,7 @@ class CatalogViewFragment : Fragment(), CatalogViewAdapter.ListListener, ItemDra
                     }
                 }
             }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+            dialog.show(requireActivity().supportFragmentManager, null)
         }
         requireActivity().invalidateOptionsMenu()
     }
@@ -256,7 +256,7 @@ class CatalogViewFragment : Fragment(), CatalogViewAdapter.ListListener, ItemDra
                     viewModel.takeAction(CatalogViewAction.ChangeTitleCatalog(text))
                 }
             }
-            requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+            dialog.show(requireActivity().supportFragmentManager, null)
         }
 
 

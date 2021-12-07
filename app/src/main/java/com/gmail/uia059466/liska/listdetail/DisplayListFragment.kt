@@ -130,7 +130,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
           viewModel.takeAction(DisplayListAction.ChangeTitleObject(text))
         }
       }
-      requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+      dialog.show(requireActivity().supportFragmentManager, null)
     }
      requireActivity().invalidateOptionsMenu()
   }
@@ -248,7 +248,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
         adapter.changePosition(newTitle,position)
       }
     }
-    requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+    dialog.show(requireActivity().supportFragmentManager, null)
   }
   
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -463,7 +463,7 @@ class DisplayListFragment : Fragment(), ItemDragListener, DisplayListAdapter.Ite
       resetSelected()
       dialog.dismiss()
     }
-    requireActivity().supportFragmentManager.let { dialog.show(it, "editWord") }
+    dialog.show(requireActivity().supportFragmentManager, null)
   }
 
   private fun navigateToCatalog(id: Long) {

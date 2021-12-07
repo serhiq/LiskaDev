@@ -336,10 +336,8 @@ class SelectUnitsFragment : Fragment(), SelectAdapter.SelectListener, ItemDragLi
                 adapter.changePosition(oldText = text, newText = newText)
             }
         }
-        requireActivity().supportFragmentManager.let { dialog.show(it, "editUnit") }
+        dialog.show(requireActivity().supportFragmentManager, null)
     }
-
-
 
     override fun hideKeyboardFragment() {
         hideKeyboard()
