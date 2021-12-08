@@ -2,12 +2,10 @@ package com.gmail.uia059466.liska.selectunit
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gmail.uia059466.liska.addeditcatalog.units.*
 import com.gmail.uia059466.liska.utils.SingleLiveEvent
-import kotlinx.coroutines.launch
 
-class SelectUnitsFFViewModel(
+class SelectUnitsViewModel(
     getAllUnits: GetAllUnits,
     getAllFavsUnits: GetAllFavsUnits,
     private val saveSelectedUnit: SaveSelectedUnit,
@@ -15,21 +13,15 @@ class SelectUnitsFFViewModel(
     private val saveFavorites: SaveFavsUnits
 ) : ViewModel() {
 
-    private val _adapterMode = SingleLiveEvent<Int>()
-    val adapterMode: LiveData<Int> = _adapterMode
-    var firstMode = 0
+    private val _adapterMode = SingleLiveEvent<UnitsAdapter.Mode>()
+    val adapterMode: LiveData<UnitsAdapter.Mode> = _adapterMode
 
+    private var firstMode = UnitsAdapter.Mode.SELECT
 
     private val _runBack = SingleLiveEvent<Boolean>()
     val runBack: LiveData<Boolean> = _runBack
 
-
-    val stateAdapter = SelectUnitsAdapterState(
-        data = getAllUnits.execute(),
-        fav = getAllFavsUnits.execute()
-    )
-
-    fun start(mode: Int) {
+    fun start(mode: UnitsAdapter.Mode) {
         _adapterMode.postValue(mode)
         firstMode = mode
     }
@@ -39,7 +31,7 @@ class SelectUnitsFFViewModel(
     }
 
     fun runBack(state: SelectUnitsAdapterState) {
-        when (firstMode == SelectAdapter.MODE_SELECT) {
+        when (firstMode == UnitsAdapter.Mode.SELECT) {
             true -> runBackSelect(state)
             else -> runBackFavorites(state)
         }
@@ -47,41 +39,31 @@ class SelectUnitsFFViewModel(
 
     private fun runBackFavorites(state: SelectUnitsAdapterState) {
         when (_adapterMode.value) {
-            SelectAdapter.MODE_EDIT -> {
-                _adapterMode.postValue(SelectAdapter.MODE_FAVORITES)
-            }
-            SelectAdapter.MODE_FAVORITES -> {
-                naturalRunBack(state)
-            }
+            UnitsAdapter.Mode.EDIT -> _adapterMode.postValue(UnitsAdapter.Mode.FAVORITES)
+            UnitsAdapter.Mode.FAVORITES -> naturalRunBack(state)
         }
     }
 
     private fun runBackSelect(state: SelectUnitsAdapterState) {
         when (_adapterMode.value) {
-            SelectAdapter.MODE_SELECT -> naturalRunBack(state)
-            SelectAdapter.MODE_EDIT -> {
-                _adapterMode.postValue(SelectAdapter.MODE_SELECT)
-            }
-            SelectAdapter.MODE_FAVORITES -> {
-                _adapterMode.postValue(SelectAdapter.MODE_SELECT)
-            }
+            UnitsAdapter.Mode.EDIT -> _adapterMode.postValue(UnitsAdapter.Mode.SELECT)
+            UnitsAdapter.Mode.FAVORITES ->_adapterMode.postValue(UnitsAdapter.Mode.SELECT)
+            UnitsAdapter.Mode.SELECT -> naturalRunBack(state)
         }
     }
 
     private fun naturalRunBack(state: SelectUnitsAdapterState) {
-        viewModelScope.launch {
             saveUnits(state.data)
             saveFavorites(state.fav)
-        }
-        _runBack.postValue(true)
+           _runBack.postValue(true)
     }
 
     fun enableEdit() {
-        _adapterMode.postValue(SelectAdapter.MODE_EDIT)
+        _adapterMode.postValue(UnitsAdapter.Mode.EDIT)
     }
 
     fun enableFavoritesSelect() {
-        _adapterMode.postValue(SelectAdapter.MODE_FAVORITES)
+        _adapterMode.postValue(UnitsAdapter.Mode.FAVORITES)
     }
 
     private fun saveFavorites(fav: List<String>) {
@@ -92,5 +74,10 @@ class SelectUnitsFFViewModel(
         saveSelectedUnit.execute(selected)
         _runBack.postValue(true)
     }
+
+    val stateAdapter = SelectUnitsAdapterState(
+        data = getAllUnits.execute(),
+        fav = getAllFavsUnits.execute()
+    )
 }
 

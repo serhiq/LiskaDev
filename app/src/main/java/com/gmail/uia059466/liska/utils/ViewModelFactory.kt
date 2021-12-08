@@ -16,7 +16,7 @@ import com.gmail.uia059466.liska.manualsortlist.ManualSortViewModel
 import com.gmail.uia059466.liska.selectfromcatalog.AddItemsCatalogUseCase
 import com.gmail.uia059466.liska.selectfromcatalog.AddItemsUneaseImpl
 import com.gmail.uia059466.liska.selectfromcatalog.FufuCatalogSelectViewModel
-import com.gmail.uia059466.liska.selectunit.SelectUnitsFFViewModel
+import com.gmail.uia059466.liska.selectunit.SelectUnitsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory constructor(
@@ -33,8 +33,8 @@ class ViewModelFactory constructor(
                         prefs = InjectorUtils.prefs(a)
                     )
 
-                isAssignableFrom(SelectUnitsFFViewModel::class.java) ->
-                    SelectUnitsFFViewModel(
+                isAssignableFrom(SelectUnitsViewModel::class.java) ->
+                    SelectUnitsViewModel(
                         getAllUnits = InjectorUtils.getAllUnits(a),
                         getAllFavsUnits = InjectorUtils.getAllFavsUnits(a),
                         saveFavorites = InjectorUtils.saveFavorites(a),

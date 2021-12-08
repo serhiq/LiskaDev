@@ -19,7 +19,7 @@ import com.gmail.uia059466.liska.lists.sortorder.SortOrder
 import com.gmail.uia059466.liska.main.AppBarUiState
 import com.gmail.uia059466.liska.main.MainActivity
 import com.gmail.uia059466.liska.main.MainActivityImpl
-import com.gmail.uia059466.liska.selectunit.SelectAdapter
+import com.gmail.uia059466.liska.selectunit.UnitsAdapter
 import com.gmail.uia059466.liska.setting.selectcatalog.CatalogDisplayOptionDialog
 import com.gmail.uia059466.liska.setting.themes.SelectNightModeDialogFragment
 
@@ -142,7 +142,7 @@ class SettingMainFragment : Fragment() {
 
     private fun displaySelectFavoriteUnits() {
         val action=R.id.action_settingGeneralFragment_to_selectUnitsFragment
-        val bundle = bundleOf("mode" to SelectAdapter.MODE_FAVORITES)
+        val bundle = bundleOf("mode" to UnitsAdapter.Mode.FAVORITES.name)
         findNavController().navigate(action, bundle)
     }
 

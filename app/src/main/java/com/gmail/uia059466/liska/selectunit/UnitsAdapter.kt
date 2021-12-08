@@ -11,39 +11,24 @@ import com.gmail.uia059466.liska.listdetail.ItemDragListener
 import com.gmail.uia059466.liska.listdetail.ItemTouchHelperListener
 import java.util.*
 
-class SelectAdapter(
-    val listener: SelectListener,
-    private val itemDragListener: ItemDragListener
-) :
-    RecyclerView.Adapter<SelectAdapter.BaseViewHolder<*>>(), ItemTouchHelperListener {
+class UnitsAdapter(val listener: Listener, private val itemDragListener: ItemDragListener
+) : RecyclerView.Adapter<UnitsAdapter.ViewHolder>(), ItemTouchHelperListener {
 
     private var data: MutableList<String> = ArrayList()
     private var favorites: MutableList<String> = ArrayList()
-    private var mode = 0
 
-    fun setupMode(newMode: Int) {
-        mode = newMode
-    }
+    private var mode = Mode.SELECT
 
-    fun getSizeFavorites() = favorites.size
-    fun getLastIndex(): Int {
-        return data.lastIndex
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.item_units, parent,
             false
         )
-        return LessonViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        val element = data[position]
-        when (holder) {
-            is LessonViewHolder -> holder.bind(element)
-            else -> throw IllegalArgumentException()
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
@@ -55,11 +40,18 @@ class SelectAdapter(
         data.addAll(state.data)
 
         favorites.clear()
-        favorites.addAll(
-            state.fav
-        )
+        favorites.addAll(state.fav)
         notifyDataSetChanged()
     }
+
+    fun setupMode(mode: Mode) {
+        this.mode = mode
+        notifyDataSetChanged()
+    }
+
+    fun getSizeFavorites() = favorites.size
+
+    fun getLastIndex()  = data.lastIndex
 
     fun addUnit(str: String) {
         data.add(str)
@@ -69,18 +61,8 @@ class SelectAdapter(
         return data.contains(str)
     }
 
-    fun displayEdit() {
-        mode = MODE_EDIT
-        notifyDataSetChanged()
-    }
-
     fun requestState(): SelectUnitsAdapterState {
         return SelectUnitsAdapterState(data, favorites)
-    }
-
-    fun displayFavorites() {
-        mode = MODE_FAVORITES
-        notifyDataSetChanged()
     }
 
     fun changePosition(oldText: String, newText: String) {
@@ -95,15 +77,7 @@ class SelectAdapter(
         notifyDataSetChanged()
     }
 
-    fun displaySelect() {
-        mode = MODE_SELECT
-    }
-
-    abstract class BaseViewHolder<in T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(item: T)
-    }
-
-    inner class LessonViewHolder(itemView: View) : BaseViewHolder<String>(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         private var radio: RadioButton = itemView.findViewById(R.id.radio)
         private var imgHandle = itemView.findViewById<ImageView>(R.id.handle_img)
@@ -113,32 +87,23 @@ class SelectAdapter(
 
         private var isFavorite = false
 
-        lateinit var currentItem: String
-
-        override fun bind(item: String) {
-            this.currentItem = item
-            tvTitle.text = currentItem
-
+        fun bind(item: String) {
+            tvTitle.text = item
             when (mode) {
-                MODE_EDIT -> renderEdit(item)
-                MODE_FAVORITES -> renderSelectFavorites(item)
-                MODE_SELECT -> renderSelect()
+                Mode.EDIT -> renderEdit(item)
+                Mode.FAVORITES -> renderSelectFavorites(item)
+                Mode.SELECT -> renderSelect(item)
             }
         }
 
-        private fun renderSelect() {
+        private fun renderSelect(item: String) {
             imgHandle.visibility = View.GONE
             delete.visibility = View.GONE
             radio.visibility = View.VISIBLE
             checkBox.visibility = View.GONE
 
-            radio.setOnClickListener {
-                listener.onSelectClicked(currentItem)
-            }
-
-            itemView.setOnClickListener {
-                listener.onSelectClicked(currentItem)
-            }
+            radio.setOnClickListener { listener.onSelectClicked(item) }
+            itemView.setOnClickListener { listener.onSelectClicked(item) }
         }
 
         private fun renderSelectFavorites(item: String) {
@@ -153,14 +118,11 @@ class SelectAdapter(
                 configureListener(item)
             }
 
-            checkBox.setOnClickListener {
-                configureListener(item)
-            }
+            checkBox.setOnClickListener { configureListener(item) }
 
             delete.visibility = View.GONE
             imgHandle.visibility = View.GONE
             radio.visibility = View.GONE
-
         }
 
         private fun configureListener(item: String) {
@@ -180,20 +142,17 @@ class SelectAdapter(
             delete.visibility = View.VISIBLE
             delete.setOnClickListener {
                 listener.hideKeyboardFragment()
-                data.remove(currentItem)
-                favorites.remove(currentItem)
+                data.remove(item)
+                favorites.remove(item)
                 notifyDataSetChanged()
             }
-            tvTitle.setOnClickListener {
-                listener.onItemClickedEdit(item, adapterPosition)
-            }
+            tvTitle.setOnClickListener { listener.onItemClickedEdit(item, adapterPosition) }
 
             llHandle.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     itemDragListener.onItemDrag(this)
                     listener.hideKeyboardFragment()
                 }
-
                 false
             }
         }
@@ -235,7 +194,7 @@ class SelectAdapter(
     override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
     }
 
-    interface SelectListener {
+    interface Listener {
         fun onLimited()
         fun onItemClickedEdit(name: String, position: Int)
         fun hideKeyboardFragment()
@@ -243,9 +202,7 @@ class SelectAdapter(
         fun updateFavs()
     }
 
-    companion object {
-        const val MODE_EDIT = 1
-        const val MODE_FAVORITES = 2
-        const val MODE_SELECT = 3
+    enum class Mode {
+        EDIT, FAVORITES, SELECT
     }
 }

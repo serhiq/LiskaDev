@@ -3,19 +3,15 @@ package com.gmail.uia059466.liska.selectunit
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.uia059466.liska.R
+import com.gmail.uia059466.liska.databinding.UnitsFragmentBinding
 import com.gmail.uia059466.liska.listdetail.EditItemDialog
 import com.gmail.uia059466.liska.listdetail.ItemDragListener
 import com.gmail.uia059466.liska.listdetail.ItemTouchHelperCallback
@@ -26,154 +22,118 @@ import com.gmail.uia059466.liska.utils.InjectorUtils
 import com.gmail.uia059466.liska.utils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 
-class SelectUnitsFragment : Fragment(), SelectAdapter.SelectListener, ItemDragListener {
+class SelectUnitsFragment : Fragment(), UnitsAdapter.Listener, ItemDragListener {
 
-    private lateinit var viewModel: SelectUnitsFFViewModel
-    private lateinit var listRv: RecyclerView
+    private var _binding: UnitsFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var viewModel: SelectUnitsViewModel
     private lateinit var itemTouchHelper: ItemTouchHelper
 
-    private lateinit var caption: TextView
-    private lateinit var divider: View
-    private lateinit var editText: EditText
-    private lateinit var saveButton: ImageButton
-    private lateinit var content: ConstraintLayout
-
-    private val adapter = SelectAdapter(this, this)
+    private val adapter = UnitsAdapter(this, this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = UnitsFragmentBinding.inflate(inflater, container, false)
 
-        val view = inflater.inflate(
-            R.layout.addedit_list_fragment,
-            container,
-            false
-        )
-
-        listRv = view.findViewById<RecyclerView>(R.id.list)
-        content = view.findViewById(R.id.list_detailed_content)
-
-        divider = view.findViewById(R.id.divider)
-        editText = view.findViewById(R.id.enter_word_edit_text)
-        saveButton = view.findViewById(R.id.save_word_button)
-        caption = view.findViewById(R.id.text)
-
-        val activity = requireActivity() as MainActivityImpl
-        activity.supportActionBar?.show()
-        activity.supportActionBar?.setHomeAsUpIndicator(null)
+        (requireActivity() as MainActivityImpl).supportActionBar?.apply {
+            show()
+            setHomeAsUpIndicator(null)
+        }
 
         setupViewModel()
         setupObservers()
         setupOnBackPressed()
         setupAdapter()
         setHasOptionsMenu(true)
-        return view
+        return binding.root
     }
 
     private fun setupAdapter() {
-        listRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerView.adapter = adapter
+        adapter.setData(viewModel.stateAdapter)
 
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy != 0) {
                     hideKeyboard()
-                    listRv.requestFocus()
+                    binding.recyclerView.requestFocus()
 
                 }
             }
         })
-        listRv.layoutManager = LinearLayoutManager(activity)
-        listRv.adapter = adapter
-        adapter.setData(viewModel.stateAdapter)
 
-        itemTouchHelper = ItemTouchHelper(
-            ItemTouchHelperCallback(
-                adapter
-            )
-        )
-        itemTouchHelper.attachToRecyclerView(listRv)
+        itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     private fun setupObservers() {
-        viewModel.runBack.observe(viewLifecycleOwner, Observer {
-            it?.let { isRunBack ->
-                if (isRunBack) {
-                    findNavController().navigateUp()
-                }
-            }
-        })
+        viewModel.runBack.observe(viewLifecycleOwner, { runBack ->
+            if (runBack == true) findNavController().navigateUp()
+           })
 
-        viewModel.adapterMode.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                switchAdapter(it)
-            }
+        viewModel.adapterMode.observe(viewLifecycleOwner, { mode ->
+            if (mode != null) switchAdapter(mode)
         })
     }
 
-    private fun switchAdapter(mode: Int) {
+    private fun switchAdapter(mode: UnitsAdapter.Mode) {
         when (mode) {
-            SelectAdapter.MODE_EDIT -> setupEditMode()
-            SelectAdapter.MODE_FAVORITES -> setupFavoritesMode()
-            SelectAdapter.MODE_SELECT -> setupSelectMode()
+            UnitsAdapter.Mode.EDIT -> setupEditMode()
+            UnitsAdapter.Mode.FAVORITES ->setupFavoritesMode()
+            UnitsAdapter.Mode.SELECT ->  setupSelectMode()
         }
     }
 
     private fun displaySnackBar(id: Int) {
-        val snackBar =
-            Snackbar.make(
-                content,
+        val snackBar = Snackbar.make(binding.listDetailedContent,
                 id,
-                Snackbar.LENGTH_LONG
-                         )
+                Snackbar.LENGTH_LONG)
         snackBar.show()
     }
 
     private fun setupSelectMode() {
-
         val title = getString(R.string.units_select_appbar)
         renderAppbar(AppBarUiState.ArrayWithTitle(title))
+        binding.divider.visibility = View.GONE
+        binding.editText.visibility = View.GONE
+        binding.editText.visibility = View.GONE
+        binding.include.text.visibility = View.GONE
 
-        divider.visibility = View.GONE
-        editText.visibility = View.GONE
-        saveButton.visibility = View.GONE
-
-        caption.visibility = View.GONE
-
-        adapter.displaySelect()
-        adapter.notifyDataSetChanged()
+        adapter.setupMode(UnitsAdapter.Mode.SELECT)
         requireActivity().invalidateOptionsMenu();
     }
 
     private fun setupFavoritesMode() {
         hideKeyboard()
-
         val title = getString(R.string.units_favs_appbar)
         renderAppbar(AppBarUiState.ArrayWithTitle(title))
 
-        divider.visibility = View.GONE
-        editText.visibility = View.GONE
-        saveButton.visibility = View.GONE
+        binding.divider.visibility = View.GONE
+        binding.editText.visibility = View.GONE
+        binding.saveImageBtn.visibility = View.GONE
 
-        caption.visibility = View.VISIBLE
+        binding.include.text.visibility = View.VISIBLE
         updateCaption()
 
-        adapter.displayFavorites()
+        adapter.setupMode(UnitsAdapter.Mode.FAVORITES)
         requireActivity().invalidateOptionsMenu(); }
 
     private fun setupEditMode() {
         val title = getString(R.string.units_edit_appbar)
         renderAppbar(AppBarUiState.ArrayWithTitle(title))
 
-        divider.visibility = View.VISIBLE
-        editText.visibility = View.VISIBLE
-        saveButton.visibility = View.VISIBLE
-        caption.visibility = View.VISIBLE
-        val captionText = getString(R.string.units_edit_caption)
-
-        caption.text = captionText
+        binding.divider.visibility = View.VISIBLE
+        binding.editText.visibility = View.VISIBLE
+        binding.saveImageBtn.visibility = View.VISIBLE
+        binding.include.text.visibility = View.VISIBLE
+        binding.include.text.text = getString(R.string.units_edit_caption)
 
         setupEditText()
-        adapter.displayEdit()
+        adapter.setupMode(UnitsAdapter.Mode.EDIT)
         requireActivity().invalidateOptionsMenu()
     }
 
@@ -183,16 +143,11 @@ class SelectUnitsFragment : Fragment(), SelectAdapter.SelectListener, ItemDragLi
     }
 
     private fun setupViewModel() {
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = InjectorUtils.provideViewModelFactory(application)
-        viewModel = ViewModelProvider(this, viewModelFactory)[SelectUnitsFFViewModel::class.java]
+        val viewModelFactory = InjectorUtils.provideViewModelFactory(requireActivity().application)
+        viewModel = ViewModelProvider(this, viewModelFactory)[SelectUnitsViewModel::class.java]
 
-        val mode = arguments?.getInt("mode")
-
-        if (mode != null) {
-            viewModel.start(mode)
-            adapter.setupMode(mode)
-        }
+        val mode = arguments?.getString("mode")?.let { UnitsAdapter.Mode.valueOf(it) } ?: throw  Exception("Не задан режим отображения mode")
+        viewModel.start(mode)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -202,49 +157,32 @@ class SelectUnitsFragment : Fragment(), SelectAdapter.SelectListener, ItemDragLi
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         when (viewModel.adapterMode.value) {
-            SelectAdapter.MODE_EDIT -> {
-                configureMenuForEdit(menu)
-            }
-            SelectAdapter.MODE_FAVORITES -> {
-                configureMenuFavorites(menu)
-            }
-            SelectAdapter.MODE_SELECT -> {
-                configureMenuSelect(menu)
-            }
+            UnitsAdapter.Mode.EDIT ->  configureMenuForEdit(menu)
+            UnitsAdapter.Mode.FAVORITES -> configureMenuFavorites(menu)
+            UnitsAdapter.Mode.SELECT -> configureMenuSelect(menu)
         }
     }
 
     private fun configureMenuSelect(menu: Menu) {
-        val editMenu = menu.findItem(R.id.menu_add_mode)
-        editMenu.isVisible = true
-
-        val selectFavorites = menu.findItem(R.id.menu_select_favorites)
-        selectFavorites.isVisible = true
+        menu.findItem(R.id.menu_add_mode).isVisible = true
+        menu.findItem(R.id.menu_select_favorites).isVisible = true
     }
 
     private fun configureMenuFavorites(menu: Menu) {
-        val editMenu = menu.findItem(R.id.menu_add_mode)
-        editMenu.isVisible = true
-
-        val selectFavorites = menu.findItem(R.id.menu_select_favorites)
-        selectFavorites.isVisible = false
+        menu.findItem(R.id.menu_add_mode).isVisible = true
+        menu.findItem(R.id.menu_select_favorites).isVisible = false
     }
 
     private fun configureMenuForEdit(menu: Menu) {
-        val editMenu = menu.findItem(R.id.menu_add_mode)
-        editMenu.isVisible = false
-
-        val selectFavorites = menu.findItem(R.id.menu_select_favorites)
-        selectFavorites.isVisible = false
-
+        menu.findItem(R.id.menu_add_mode).isVisible = false
+        menu.findItem(R.id.menu_select_favorites).isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 hideKeyboard()
-                val state = adapter.requestState()
-                viewModel.runBack(state)
+                viewModel.runBack(adapter.requestState())
                 return true
             }
             R.id.menu_add_mode -> {
@@ -264,59 +202,42 @@ class SelectUnitsFragment : Fragment(), SelectAdapter.SelectListener, ItemDragLi
             .addCallback(viewLifecycleOwner,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        val state = adapter.requestState()
-                        viewModel.runBack(state)
+                        viewModel.runBack(adapter.requestState())
                     }
                 }
             )
     }
 
     private fun setupEditText() {
-        editText.setOnEditorActionListener { _, actionId: Int, _ ->
+        binding.editText.setOnEditorActionListener { _, actionId: Int, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                val text = editText.text.toString()
-
-                when {
-                    text.isBlank()               -> {
-                    }
-                    adapter.isContainUnits(text) -> {
-                      displaySnackBar(R.string.units_equals_unit_snakbar)
-                    }
-                    else                         -> {
-                        addItem(text)
-                    }
-                }
+                saveText(binding.editText.text.toString())
                 return@setOnEditorActionListener true
             }
             false
         }
 
-        val btnSave = view?.findViewById<ImageButton>(R.id.save_word_button)
-        btnSave?.setOnClickListener {
-            val text = editText.text.toString()
-            when {
-                text.isBlank()               -> {
-                }
-                adapter.isContainUnits(text) -> {
-                    displaySnackBar(R.string.units_equals_unit_snakbar)
-                }
-                else                         -> {
-                    addItem(text)
-                }
-            }
+        binding.saveImageBtn.setOnClickListener {
+            saveText(binding.editText.text.toString())
+        }
+    }
+
+    private fun saveText(text: String) {
+        when {
+            text.isBlank()               -> {}
+            adapter.isContainUnits(text) -> displaySnackBar(R.string.units_equals_unit_snakbar)
+            else                         -> addItem(text)
         }
     }
 
     private fun addItem(text: String) {
         adapter.addUnit(text.trim())
-        listRv.scrollToPosition(adapter.getLastIndex())
-        editText.text?.clear()
+        binding.recyclerView.scrollToPosition(adapter.getLastIndex())
+        binding.editText.text?.clear()
     }
 
     private fun updateCaption() {
-        val title=getString(R.string.units_favs_caption,adapter.getSizeFavorites())
-        val favsTitle = title
-        caption.text = favsTitle
+        binding.include.text.text = getString(R.string.units_favs_caption,adapter.getSizeFavorites())
     }
 
     override fun onLimited() {

@@ -20,7 +20,7 @@ import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.addeditcatalog.units.UnitPanelState
 import com.gmail.uia059466.liska.data.database.CatalogItem
 import com.gmail.uia059466.liska.main.MainActivityImpl
-import com.gmail.uia059466.liska.selectunit.SelectAdapter
+import com.gmail.uia059466.liska.selectunit.UnitsAdapter
 import com.gmail.uia059466.liska.utils.InjectorUtils
 import com.gmail.uia059466.liska.utils.getThemeColor
 
@@ -255,7 +255,7 @@ class AddEditCatalogFragment : Fragment() {
   private fun navigateToSelectUnit() {
     viewModel.isNeedUpdate = true
     val action = R.id.action_addEditCatalogFragment_to_selectUnitsFragment
-    val bundle = bundleOf("mode" to SelectAdapter.MODE_SELECT)
+    val bundle = bundleOf("mode" to UnitsAdapter.Mode.SELECT.name)
     findNavController().navigate(action, bundle)
   }
   

@@ -1,17 +1,12 @@
 package com.gmail.uia059466.liska.screen
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.gmail.uia059466.liska.BaseScreen
 import com.gmail.uia059466.liska.R
-import com.gmail.uia059466.liska.lists.sortorder.SortOrder
 
 class FavoriteUnitsScreen(on: UiDevice) : BaseScreen(on) {
     /*
@@ -19,10 +14,10 @@ class FavoriteUnitsScreen(on: UiDevice) : BaseScreen(on) {
      */
     override val contentLayout: Int= R.id.list_detailed_content
 
-    private val save_word_button = R.id.save_word_button
-    private val enter_word_edit_text = R.id.enter_word_edit_text
+    private val save_word_button = R.id.save_image_btn
+    private val enter_word_edit_text = R.id.edit_text
 
-    private val list = R.id.list
+    private val list = R.id.recycler_view
 
     private val menu_edit_mode = R.id.menu_add_mode
     private val menu_home = android.R.id.home
