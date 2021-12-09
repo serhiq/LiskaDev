@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gmail.uia059466.liska.R
+import com.gmail.uia059466.liska.databinding.ListsFragmentBinding
+import com.gmail.uia059466.liska.databinding.SettingMainFragmentBinding
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
 import com.gmail.uia059466.liska.lists.sortorder.SortDialog
 import com.gmail.uia059466.liska.main.AppBarUiState
@@ -28,36 +30,29 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
 
     @VisibleForTesting
     private lateinit var viewModel: ListsViewModel
-    private lateinit var listRv: RecyclerView
-    private lateinit var coordinatorLayout: CoordinatorLayout
+
     lateinit var  prefs:UserPreferencesRepositoryImpl
     private var isListMode=true
     private var isDisplayRateUs=false
+
+    private var _binding: ListsFragmentBinding? = null
+    private val binding get() = _binding!!
+
 
     private val adapter = ListsAdapter(this )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = ListsFragmentBinding.inflate(inflater, container, false)
 
-        val view = inflater.inflate(
-            R.layout.lists_fragment,
-            container,
-            false
-        )
         prefs=UserPreferencesRepositoryImpl.getInstance(requireActivity())
         isListMode=prefs.isListMode
 
         isDisplayRateUs=prefs.isShowRateAppDialog
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.add_fab)
-        fab.setOnClickListener {
-            navigateToNewList()
-        }
-
-        listRv = view.findViewById<RecyclerView>(R.id.list)
-        coordinatorLayout = view.findViewById<CoordinatorLayout>(R.id.list_content)
+        binding.addFab.setOnClickListener { navigateToNewList() }
 
         (activity as MainActivityImpl).displayListInNavigationDrawer()
 
@@ -67,7 +62,7 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
         setupObservers()
         setupOnBackPressed()
         setHasOptionsMenu(true)
-        return view
+        return binding.root
     }
 
     private fun navigateToNewList() {
@@ -78,9 +73,8 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
         val spanCount=if (isListMode) 1 else 2
         layoutManager = StaggeredGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
 
-        listRv.layoutManager = layoutManager
-        listRv.adapter = adapter
-
+        binding.list.layoutManager = layoutManager
+        binding.list.adapter = adapter
     }
 
     private fun setupContainerFragmentUi() {
@@ -109,7 +103,7 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
 
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
             it?.let {text->
-                val snackBar = Snackbar.make(coordinatorLayout,it, Snackbar.LENGTH_LONG)
+                val snackBar = Snackbar.make(binding.listContent,it, Snackbar.LENGTH_LONG)
                 snackBar.show()
             }
         })
@@ -252,5 +246,10 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
         isListMode=false
         layoutManager.spanCount = 2
         requireActivity().invalidateOptionsMenu()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
