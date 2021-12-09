@@ -42,10 +42,9 @@ class ListsViewModel(
   private fun updateList(){
     _sortOrder=prefs.readSortOrderList()
     viewModelScope.launch {
-      _lists.postValue(sortedTask(_sortOrder,getAllListUseCases.invoke()))
+      _lists.postValue(sortedTask(_sortOrder, getAllListUseCases.invoke()))
     }
   }
-
 
   private fun sortedTask(order: SortOrder, list: List<ListDisplay>): List<ListDisplay> {
     return when (order) {
@@ -71,33 +70,32 @@ class ListsViewModel(
   }
   
   fun takeAction(action: ListsAction) {
-    when(action){
-
+    when (action) {
       ListsAction.UpdateMessages -> updateMessage()
-      is ListsAction.SortList -> {
-        prefs.saveSortOrderList(action.sort)
-        if (action.sort==SortOrder.MANUAL_SORT){
-          viewModelScope.launch {
-            saveNewOrderList.invoke(lists.value?: emptyList())
-            navigateToManualSort.postValue(true)
-          }
+      is ListsAction.SortList    -> sortList(action)
+      ListsAction.NewList        -> createList()
+    }
+  }
 
-        }else{
-          updateList()
-
-        }
+  private fun sortList(action: ListsAction.SortList) {
+    prefs.saveSortOrderList(action.sort)
+    if (action.sort == SortOrder.MANUAL_SORT) {
+      viewModelScope.launch {
+        saveNewOrderList.invoke(lists.value?: emptyList())
+        navigateToManualSort.postValue(true)
       }
-      ListsAction.NewList ->createList()
+    } else {
+      updateList()
     }
   }
 
   fun createList(){
     viewModelScope.launch {
-      val id=createList.invoke()
+      val id = createList.invoke()
       navigateToEditList.postValue(id)
     }
-
   }
+
   fun refreshList() {
     updateList()
   }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.data.ListDisplay
@@ -13,33 +14,34 @@ class ListsAdapter(private val listener: ListListener,
                   ) : RecyclerView.Adapter<ListsAdapter.BaseViewHolder<*>>(){
 
     private var data: MutableList<ListDisplay> = ArrayList()
-    private var modeAdapter=0
-
-    fun enableListMode(){
-        modeAdapter=0
-        notifyDataSetChanged()
-    }
-    fun enableGridMode(){
-        modeAdapter=1
-        notifyDataSetChanged()
-    }
-
-    private val LIST_ITEM = 1
-    private val GRID_ITEM = 2
-
-    override fun getItemViewType(position: Int): Int {
-        return when(modeAdapter) {
-            0-> LIST_ITEM
-            else -> GRID_ITEM
-        }
-    }
-
+    private var modeAdapter = 0
 
     interface ListListener {
         fun onListClicked(id: Long)
         fun onLongClicked(id: Long)
     }
-    
+
+    fun enableMode() {
+
+    }
+
+    fun enableListMode(){
+        modeAdapter =  0
+        notifyDataSetChanged()
+    }
+    fun enableGridMode(){
+        modeAdapter = 1
+        notifyDataSetChanged()
+    }
+
+
+    override fun getItemViewType(position: Int): Int {
+        return when(modeAdapter) {
+            0    -> LIST_ITEM
+            else -> GRID_ITEM
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         return when (viewType) {
             LIST_ITEM -> {
@@ -67,7 +69,7 @@ class ListsAdapter(private val listener: ListListener,
         when (holder) {
             is LessonViewHolder -> holder.bind(element)
             is GridViewHolder -> holder.bind(element)
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("неизвестный тип viewHolder")
         }
     }
 
@@ -91,25 +93,17 @@ class ListsAdapter(private val listener: ListListener,
         private val tvName: TextView = itemView.findViewById(R.id.title_tv)
         private val tvDescription: TextView = itemView.findViewById(R.id.description_tv)
 
-        lateinit var currentItem:ListDisplay
-    
         override fun bind(item: ListDisplay) {
-            this.currentItem = item
-            renderView()
-            tvName.text = currentItem.title
-        }
-    
-        private fun renderView() {
-            tvDescription.visibility=View.VISIBLE
-            tvDescription.text = currentItem.description
-            
+            tvName.text = item.title
+            tvDescription.isVisible = true
+            tvDescription.text = item.description
+
+            itemView.setOnClickListener { listener.onListClicked(item.id) }
+
+
             itemView.setOnLongClickListener {
-                listener.onLongClicked(currentItem.id)
+                listener.onLongClicked(item.id)
                 return@setOnLongClickListener true
-            }
-    
-            itemView.setOnClickListener {
-                listener.onListClicked(currentItem.id)
             }
         }
     }
@@ -119,26 +113,22 @@ class ListsAdapter(private val listener: ListListener,
         private val tvName: TextView = itemView.findViewById(R.id.title_tv)
         private val tvDescription: TextView = itemView.findViewById(R.id.description_tv)
 
-        lateinit var currentItem:ListDisplay
-
         override fun bind(item: ListDisplay) {
-            this.currentItem = item
-            renderView()
-            tvName.text = currentItem.title
-        }
-
-        private fun renderView() {
-            tvDescription.visibility=View.VISIBLE
-            tvDescription.text = currentItem.veryLongDescription
+            tvName.text = item.title
+            tvDescription.isVisible = true
+            tvDescription.text = item.veryLongDescription
 
             itemView.setOnLongClickListener {
-                listener.onLongClicked(currentItem.id)
+                listener.onLongClicked(item.id)
                 return@setOnLongClickListener true
             }
 
-            itemView.setOnClickListener {
-                listener.onListClicked(currentItem.id)
-            }
+            itemView.setOnClickListener { listener.onListClicked(item.id) }
         }
+    }
+    companion object {
+        private val LIST_ITEM = 1
+        private val GRID_ITEM = 2
+
     }
 }

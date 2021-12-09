@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.VisibleForTesting
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.databinding.ListsFragmentBinding
-import com.gmail.uia059466.liska.databinding.SettingMainFragmentBinding
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
 import com.gmail.uia059466.liska.lists.sortorder.SortDialog
 import com.gmail.uia059466.liska.main.AppBarUiState
@@ -23,23 +20,24 @@ import com.gmail.uia059466.liska.main.MainActivity
 import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.setting.rateus.RateUsDialog
 import com.gmail.uia059466.liska.utils.InjectorUtils
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
-class ListsFragment :Fragment(), ListsAdapter.ListListener{
+class ListsFragment : Fragment(), ListsAdapter.ListListener{
 
     @VisibleForTesting
     private lateinit var viewModel: ListsViewModel
 
-    lateinit var  prefs:UserPreferencesRepositoryImpl
-    private var isListMode=true
+    private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
+
+    private var isListMode = true
     private var isDisplayRateUs=false
 
     private var _binding: ListsFragmentBinding? = null
     private val binding get() = _binding!!
 
-
     private val adapter = ListsAdapter(this )
+
+    private lateinit var layoutManager: StaggeredGridLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,45 +45,34 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
     ): View {
         _binding = ListsFragmentBinding.inflate(inflater, container, false)
 
-        prefs=UserPreferencesRepositoryImpl.getInstance(requireActivity())
-        isListMode=prefs.isListMode
+        isListMode = prefs.isListMode
 
-        isDisplayRateUs=prefs.isShowRateAppDialog
+        isDisplayRateUs = prefs.isShowRateAppDialog
 
-        binding.addFab.setOnClickListener { navigateToNewList() }
+        binding.addFab.setOnClickListener { (activity as MainActivityImpl).openNewList()}
 
         (activity as MainActivityImpl).displayListInNavigationDrawer()
 
+        setupAppBar()
         setupAdapter()
-        setupContainerFragmentUi()
         setupViewModel()
         setupObservers()
         setupOnBackPressed()
         setHasOptionsMenu(true)
         return binding.root
     }
-
-    private fun navigateToNewList() {
-        (activity as MainActivityImpl).openNewList()
-    }
-
     private fun setupAdapter() {
-        val spanCount=if (isListMode) 1 else 2
-        layoutManager = StaggeredGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
-
-        binding.list.layoutManager = layoutManager
+        val spanCount = if (isListMode) 1 else 2
+        binding.list.layoutManager = StaggeredGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
         binding.list.adapter = adapter
     }
 
-    private fun setupContainerFragmentUi() {
-        val mainActivity = activity as MainActivity
-        val toolbar =
-            AppBarUiState.IconNavigationWithTitle("")
-        mainActivity.renderAppbar(toolbar)
+    private fun setupAppBar() {
+        val toolbar = AppBarUiState.IconNavigationWithTitle("")
+        (activity as MainActivity).renderAppbar(toolbar)
     }
 
     private fun setupObservers() {
-
         viewModel.navigateToEditList.observe(viewLifecycleOwner, Observer {
             it?.let {id->
                 val action = R.id.action_global_display_list
@@ -103,23 +90,20 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
 
         viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
             it?.let {text->
-                val snackBar = Snackbar.make(binding.listContent,it, Snackbar.LENGTH_LONG)
+                val snackBar = Snackbar.make(binding.listContent,text, Snackbar.LENGTH_LONG)
                 snackBar.show()
             }
         })
-        viewModel.navigateToManualSort.observe(viewLifecycleOwner, Observer {
-            it?.let {navigateToSort->
-                if (navigateToSort){
-                    val action=R.id.action_listsFragment_to_manualSortFragment
-                    (activity as MainActivity).navigateTo(action)
-                }
+
+        viewModel.navigateToManualSort.observe(viewLifecycleOwner, Observer { navigateToSort->
+            if (navigateToSort == true) {
+                (activity as MainActivity).navigateTo(R.id.action_listsFragment_to_manualSortFragment)
             }
         })
     }
 
     private fun setupViewModel() {
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = InjectorUtils.provideViewModelFactory(application)
+        val viewModelFactory = InjectorUtils.provideViewModelFactory(requireActivity().application)
         viewModel = ViewModelProvider(this, viewModelFactory)[ListsViewModel::class.java]
     }
 
@@ -129,25 +113,16 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        val menuRateAs = menu.findItem(R.id.menu_rate_us)
-        menuRateAs.isVisible = isDisplayRateUs
-
-
-        val menuSort = menu.findItem(R.id.menu_sort)
-        menuSort.isVisible = true
-
-        val menuTile = menu.findItem(R.id.menu_tile)
-        menuTile.isVisible = isListMode
-
-        val menuList = menu.findItem(R.id.menu_list)
-        menuList.isVisible = !isListMode
-
+       menu.findItem(R.id.menu_rate_us).isVisible = isDisplayRateUs
+       menu.findItem(R.id.menu_sort).isVisible = true
+       menu.findItem(R.id.menu_tile).isVisible = isListMode
+       menu.findItem(R.id.menu_list).isVisible = !isListMode
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                runOnBack()
+                requireActivity().finish()
                 return true
             }
             R.id.menu_sort -> {
@@ -171,14 +146,9 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
                     requireActivity().invalidateOptionsMenu()
 
                 }
-
-                val fragmentManager = activity?.supportFragmentManager
-                fragmentManager?.let { dialog.show(it, "rateUs") }
-
+                dialog.show(requireActivity().supportFragmentManager, "rateUs")
                 return true
             }
-
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -199,10 +169,8 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
 
     override fun onLongClicked(id: Long) {
         (activity as MainActivityImpl).displayHightList(id)
-
-        val action = R.id.action_global_display_list
         val bundle = bundleOf("isEditMode" to true, "listId" to id)
-        findNavController().navigate(action,bundle)
+        findNavController().navigate(R.id.action_global_display_list, bundle)
     }
 
     private fun setupOnBackPressed() {
@@ -210,14 +178,10 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
             .addCallback(viewLifecycleOwner,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        runOnBack()
+                        requireActivity().finish()
                     }
                 }
             )
-    }
-
-    private fun runOnBack() {
-        requireActivity().finish()
     }
 
     override fun onResume() {
@@ -226,24 +190,20 @@ class ListsFragment :Fragment(), ListsAdapter.ListListener{
         viewModel.refreshList()
     }
 
-    private lateinit var layoutManager: StaggeredGridLayoutManager
-
-
     private fun showListView() {
         adapter.enableListMode()
 
-        prefs.isListMode=true
-        isListMode=true
+        prefs.isListMode = true
+        isListMode = true
 
         layoutManager.spanCount = 1
         requireActivity().invalidateOptionsMenu()
-
     }
 
     private fun showGridView() {
         adapter.enableGridMode()
-        prefs.isListMode=false
-        isListMode=false
+        prefs.isListMode = false
+        isListMode = false
         layoutManager.spanCount = 2
         requireActivity().invalidateOptionsMenu()
     }
