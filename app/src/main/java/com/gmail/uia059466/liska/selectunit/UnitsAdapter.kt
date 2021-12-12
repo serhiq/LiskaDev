@@ -55,6 +55,7 @@ class UnitsAdapter(val listener: Listener, private val itemDragListener: ItemDra
 
     fun addUnit(str: String) {
         data.add(str)
+        notifyDataSetChanged()
     }
 
     fun isContainUnits(str: String): Boolean {

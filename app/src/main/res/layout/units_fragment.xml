@@ -25,8 +25,8 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/viewDivider"
-        app:layout_constraintBottom_toTopOf="@+id/enter_word_edit_text" />
+        app:layout_constraintBottom_toTopOf="@+id/edit_text"
+        android:background="?attr/viewDivider"/>
 
     <EditText
         android:id="@+id/edit_text"
