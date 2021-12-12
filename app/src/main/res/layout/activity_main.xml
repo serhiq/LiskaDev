@@ -136,6 +136,35 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/nav_warehouse"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:layout_marginRight="32dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_warehouse"
+                app:tint="?attr/high_attention_icon_onSpace"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="7sp"
+                android:gravity="center_vertical"
+                android:text="@string/nav_warehouse" />
+        </LinearLayout>
+
         <include layout="@layout/nav_divider" />
 
         <androidx.recyclerview.widget.RecyclerView

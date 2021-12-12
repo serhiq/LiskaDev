@@ -13,9 +13,11 @@ import com.gmail.uia059466.liska.data.CatalogRepositoryImpl
 import com.gmail.uia059466.liska.data.ListRepositoryImpl
 import com.gmail.uia059466.liska.data.database.AppDatabase
 import com.gmail.uia059466.liska.data.database.SeedDatabaseWorker
+import com.gmail.uia059466.liska.data.database.migration.Migration_1_2
 import com.gmail.uia059466.liska.domain.CatalogRepository
 import com.gmail.uia059466.liska.domain.ListRepository
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
+import com.gmail.uia059466.liska.domain.WarehouseRepository
 import com.gmail.uia059466.liska.domain.usecase.MessageRepository
 import com.gmail.uia059466.liska.domain.usecase.MessageRepositoryImpl
 
@@ -35,6 +37,10 @@ object ServiceLocator {
     var messageRepository: MessageRepository? = null
         @VisibleForTesting set
 
+    @Volatile
+    var warehouseRepository: WarehouseRepository? = null
+        @VisibleForTesting set
+
     fun provideMessageRepository(context: Context): MessageRepository {
         synchronized(this) {
             return messageRepository ?: createMessageRepository(context)
@@ -52,6 +58,12 @@ object ServiceLocator {
         }
     }
 
+    fun provideWarehouseRepository(context: Context): WarehouseRepository {
+        synchronized(this) {
+            return warehouseRepository ?: createWarehouseRepository(context)
+        }
+    }
+
     private fun createListsRepository(context: Context): ListRepository {
         val newRepo = ListRepositoryImpl(dao=createDataSource(context).listingDao(),configRepository = UserPreferencesRepositoryImpl.getInstance(context))
         listRepository = newRepo
@@ -62,6 +74,12 @@ object ServiceLocator {
         val newRepo = CatalogRepositoryImpl(createDataSource(context).catalogDao())
               catalogRepository = newRepo
         return newRepo
+    }
+
+    private fun createWarehouseRepository(context: Context): WarehouseRepository {
+        val repo = WarehouseRepositoryImpl(createDataSource(context).warehouseDao())
+              warehouseRepository = repo
+        return repo
     }
 
     private fun createDataSource(context: Context): AppDatabase {
@@ -76,12 +94,13 @@ object ServiceLocator {
                         context.applicationContext,
                         AppDatabase::class.java, "liska.db"
                                                      )
+                        .addMigrations(Migration_1_2())
                         .addCallback(object : RoomDatabase.Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
+
                                 val request: OneTimeWorkRequest = OneTimeWorkRequest.Builder(
-                                    SeedDatabaseWorker::class.java
-                                                                                            )
+                                    SeedDatabaseWorker::class.java)
                                     .build()
                                 WorkManager.getInstance(context).enqueue(request)
                             }

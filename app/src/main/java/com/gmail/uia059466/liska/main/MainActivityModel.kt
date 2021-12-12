@@ -43,7 +43,7 @@ class MainActivityModel(
   private fun updateList(){
     _sortOrder=prefs.readSortOrderList()
     viewModelScope.launch {
-      _lists.postValue(displayedList())
+      _lists.postValue(displayedList()!!)
     }
   }
 
@@ -63,7 +63,7 @@ class MainActivityModel(
   }
 
   fun takeAction(action: MainAction) {
-    when(action){
+    return when(action){
       MainAction.NewList ->createList()
        is MainAction.ToList -> {
         toDisplayList.postValue(action.id)
@@ -84,6 +84,10 @@ class MainActivityModel(
         currentRvPosition.postValue(action.id)
         currentDrawerPosition.postValue(DrawerList.Empty)
 
+      }
+      MainAction.hightLightWareHouse -> {
+        currentRvPosition.postValue(-1)
+        currentDrawerPosition.postValue(DrawerList.WAREHOUSE)
       }
     }
   }

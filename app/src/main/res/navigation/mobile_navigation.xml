@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--todo refactor: -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mobile_navigation.xml"
@@ -18,9 +20,10 @@
 
         />
     <action android:id="@+id/action_global_catalog"
-        app:destination="@id/catalogFragment"
+        app:destination="@id/catalogFragment" />
 
-        />
+    <action android:id="@+id/action_global_warehouse"
+        app:destination="@id/warehouseListFragment" />
 
     <action android:id="@+id/action_global_setting"
           app:popUpTo="@+id/action_global_lists"
@@ -107,4 +110,8 @@
         android:id="@+id/aboutFragment"
         android:name="com.gmail.uia059466.liska.setting.about.AboutFragment"
         android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/warehouseListFragment"
+        android:name="com.gmail.uia059466.liska.warehouse.WarehousesFragment"
+        android:label="WarehouseFragment" />
 </navigation>

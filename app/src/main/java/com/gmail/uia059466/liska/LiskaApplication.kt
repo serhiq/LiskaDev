@@ -7,12 +7,16 @@ import com.gmail.uia059466.liska.data.Mode
 import com.gmail.uia059466.liska.domain.CatalogRepository
 import com.gmail.uia059466.liska.domain.ListRepository
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
+import com.gmail.uia059466.liska.domain.WarehouseRepository
 import com.gmail.uia059466.liska.domain.usecase.MessageRepository
 
 class LiskaApplication:Application() {
 
     val listRepository: ListRepository
         get() = ServiceLocator.provideListRepository(this)
+
+    val wareHouseRepository: WarehouseRepository
+        get() = ServiceLocator.provideWarehouseRepository(this)
 
     val catalogRepository: CatalogRepository
         get() = ServiceLocator.provideCatalogRepository(this)

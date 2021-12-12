@@ -19,6 +19,11 @@ object InjectorUtils {
     private fun listRepository(a:Application):ListRepository{
         return (a as LiskaApplication).listRepository
     }
+
+    private fun warehouseRepository(a:Application):ListRepository{
+        return (a as LiskaApplication).listRepository
+    }
+
     private fun messageRepository(a:Application): MessageRepository {
         return (a as LiskaApplication).messageRepository
     }

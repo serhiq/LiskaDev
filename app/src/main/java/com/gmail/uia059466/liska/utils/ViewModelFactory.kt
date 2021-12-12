@@ -17,6 +17,7 @@ import com.gmail.uia059466.liska.selectfromcatalog.AddItemsCatalogUseCase
 import com.gmail.uia059466.liska.selectfromcatalog.AddItemsUneaseImpl
 import com.gmail.uia059466.liska.selectfromcatalog.FufuCatalogSelectViewModel
 import com.gmail.uia059466.liska.selectunit.SelectUnitsViewModel
+import com.gmail.uia059466.liska.warehouse.WarehouseViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory constructor(
@@ -105,9 +106,10 @@ class ViewModelFactory constructor(
                         ),
                         addItemsInList = AddItemsUneaseImpl(
                             repository = a.listRepository
-                        ),
-
-                        )
+                        ),)
+                isAssignableFrom(WarehouseViewModel::class.java) ->
+                    WarehouseViewModel(
+                        warehouseRepository =(a as LiskaApplication).wareHouseRepository ,messageRepository = MessageRepositoryImpl.getInstance(), prefs = InjectorUtils.prefs(a))
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

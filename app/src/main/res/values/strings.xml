@@ -13,6 +13,7 @@
     <string name="nav_title">@string/app_name</string>
     <string name="nav_list">Lists</string>
     <string name="nav_catalog">Catalog</string>
+    <string name="nav_warehouse">Warehouses</string>
     <string name="nav_create_new">Add list</string>
     <string name="open">open</string>
     <string name="close">close</string>
@@ -185,4 +186,8 @@ This will greatly help in further improving the program.</string>
     <string name="save">save</string>
     <string name="widget_name_title_configure">Title</string>
     <string name="select_favorites">Select favorites</string>
+
+<!--    Warehouses-->
+    <string name="warehouses_title">Warehouses</string>
+
 </resources>

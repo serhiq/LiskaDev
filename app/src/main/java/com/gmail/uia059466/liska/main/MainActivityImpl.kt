@@ -38,7 +38,7 @@ import com.gmail.uia059466.liska.utils.InjectorUtils
 import com.gmail.uia059466.liska.widget.WidgetContastant
 import com.gmail.uia059466.liska.widget.listwidget.WidgetConfigRepository
 import kotlinx.android.synthetic.main.activity_main.*
-
+// todo refactor to viewBinding
 class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.Listener {
     lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var drawerLayout: DrawerLayout
@@ -50,6 +50,7 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
 
     lateinit var navLists: LinearLayout
     lateinit var navCatalog: LinearLayout
+    lateinit var navWarehouse: LinearLayout
 
     lateinit var navigation_rv: RecyclerView
 
@@ -75,6 +76,8 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
 
         navLists = findViewById<LinearLayout>(R.id.nav_lists)
         navCatalog = findViewById<LinearLayout>(R.id.nav_catalog)
+        navWarehouse = findViewById<LinearLayout>(R.id.nav_warehouse)
+
         val navAddList = findViewById<LinearLayout>(R.id.nav_add_list)
         val navSetting = findViewById<ImageView>(R.id.setting_img)
 
@@ -88,6 +91,12 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
         navCatalog.setOnClickListener {
             viewModel.takeAction(MainAction.hightLightCatalog)
             val action = R.id.action_global_catalog
+            navigateWithClearBackStack(action)
+        }
+
+        navWarehouse.setOnClickListener {
+            viewModel.takeAction(MainAction.hightLightWareHouse)
+            val action = R.id.action_global_warehouse
             navigateWithClearBackStack(action)
         }
 
@@ -281,14 +290,23 @@ class MainActivityImpl : AppCompatActivity(), MainActivity, NavigationRVAdapter.
             DrawerList.LISTS -> {
                 navLists.setBackgroundResource(selected)
                 navCatalog.setBackgroundResource(unSelected)
+                navWarehouse.setBackgroundResource(unSelected)
             }
             DrawerList.Catalog -> {
                 navLists.setBackgroundResource(unSelected)
                 navCatalog.setBackgroundResource(selected)
+                navWarehouse.setBackgroundResource(unSelected)
             }
             DrawerList.Empty -> {
                 navLists.setBackgroundResource(unSelected)
                 navCatalog.setBackgroundResource(unSelected)
+                navWarehouse.setBackgroundResource(unSelected)
+            }
+
+            DrawerList.WAREHOUSE -> {
+                navLists.setBackgroundResource(unSelected)
+                navCatalog.setBackgroundResource(unSelected)
+                navWarehouse.setBackgroundResource(selected)
             }
         }
     }
