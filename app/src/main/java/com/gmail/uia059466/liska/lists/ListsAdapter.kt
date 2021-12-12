@@ -21,10 +21,6 @@ class ListsAdapter(private val listener: ListListener,
         fun onLongClicked(id: Long)
     }
 
-    fun enableMode() {
-
-    }
-
     fun enableListMode(){
         modeAdapter =  0
         notifyDataSetChanged()
@@ -49,7 +45,7 @@ class ListsAdapter(private val listener: ListListener,
                     R.layout.item_list, parent,
                     false
                 )
-                LessonViewHolder(view)
+                ListViewHolder(view)
             }
 
             GRID_ITEM -> {
@@ -67,7 +63,7 @@ class ListsAdapter(private val listener: ListListener,
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         val element = data[position]
         when (holder) {
-            is LessonViewHolder -> holder.bind(element)
+            is ListViewHolder -> holder.bind(element)
             is GridViewHolder -> holder.bind(element)
             else -> throw IllegalArgumentException("неизвестный тип viewHolder")
         }
@@ -88,7 +84,7 @@ class ListsAdapter(private val listener: ListListener,
         abstract fun bind(item: T)
     }
 
-    inner class LessonViewHolder(itemView: View) : BaseViewHolder<ListDisplay>(itemView) {
+    inner class ListViewHolder(itemView: View) : BaseViewHolder<ListDisplay>(itemView) {
 
         private val tvName: TextView = itemView.findViewById(R.id.title_tv)
         private val tvDescription: TextView = itemView.findViewById(R.id.description_tv)
@@ -99,7 +95,6 @@ class ListsAdapter(private val listener: ListListener,
             tvDescription.text = item.description
 
             itemView.setOnClickListener { listener.onListClicked(item.id) }
-
 
             itemView.setOnLongClickListener {
                 listener.onLongClicked(item.id)
@@ -129,6 +124,5 @@ class ListsAdapter(private val listener: ListListener,
     companion object {
         private val LIST_ITEM = 1
         private val GRID_ITEM = 2
-
     }
 }

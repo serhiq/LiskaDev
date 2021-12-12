@@ -6,7 +6,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.VisibleForTesting
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,7 +14,7 @@ import com.gmail.uia059466.liska.R
 import com.gmail.uia059466.liska.databinding.ListsFragmentBinding
 import com.gmail.uia059466.liska.domain.UserPreferencesRepositoryImpl
 import com.gmail.uia059466.liska.lists.sortorder.SortDialog
-import com.gmail.uia059466.liska.main.AppBarUiState
+import com.gmail.uia059466.liska.main.AppBarUiState.*
 import com.gmail.uia059466.liska.main.MainActivity
 import com.gmail.uia059466.liska.main.MainActivityImpl
 import com.gmail.uia059466.liska.setting.rateus.RateUsDialog
@@ -31,7 +30,7 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
 
     private var isListMode  = true
 
-    private var isDisplayRateUs=false
+    private var isDisplayRateUs = false
 
     private var _binding: ListsFragmentBinding? = null
     private val binding get() = _binding!!
@@ -68,34 +67,31 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
     }
 
     private fun setupAppBar() {
-        val toolbar = AppBarUiState.IconNavigationWithTitle("")
-        (activity as MainActivity).renderAppbar(toolbar)
+        (activity as MainActivity).renderAppbar(IconNavigationWithTitle(""))
     }
 
     private fun setupObservers() {
-        viewModel.navigateToEditList.observe(viewLifecycleOwner, Observer {
-            it?.let {id->
-                val action = R.id.action_global_display_list
+        viewModel.navigateToEditList.observe(viewLifecycleOwner, { id->
+            if (id != null) {
                 val bundle = bundleOf("isEditMode" to true, "listId" to id)
-                findNavController().navigate(action,bundle)
+                findNavController().navigate(R.id.action_global_display_list, bundle)
             }
         })
 
-        viewModel.lists.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.setData(it.toMutableList(),isListMode)
+        viewModel.lists.observe(viewLifecycleOwner, { list ->
+            if (list != null) {
+                adapter.setData(list.toMutableList(), isListMode)
                 (activity as MainActivityImpl).updateNavigationDrawer()
             }
         })
 
-        viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
-            it?.let {text->
-                val snackBar = Snackbar.make(binding.listContent,text, Snackbar.LENGTH_LONG)
-                snackBar.show()
-            }
+        viewModel.snackbarText.observe(viewLifecycleOwner, { idText ->
+            if (idText != null) {
+                Snackbar.make(binding.listContent,idText, Snackbar.LENGTH_LONG).show()
+             }
         })
 
-        viewModel.navigateToManualSort.observe(viewLifecycleOwner, Observer { navigateToSort->
+        viewModel.navigateToManualSort.observe(viewLifecycleOwner, { navigateToSort->
             if (navigateToSort == true) {
                 (activity as MainActivity).navigateTo(R.id.action_listsFragment_to_manualSortFragment)
             }
@@ -144,7 +140,6 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
                     UserPreferencesRepositoryImpl.getInstance(requireContext()).isShowRateDissabled=true
                     isDisplayRateUs=false
                     requireActivity().invalidateOptionsMenu()
-
                 }
                 dialog.show(requireActivity().supportFragmentManager, "rateUs")
                 return true

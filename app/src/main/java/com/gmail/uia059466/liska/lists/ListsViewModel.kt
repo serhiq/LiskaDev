@@ -40,7 +40,7 @@ class ListsViewModel(
   }
 
   private fun updateList(){
-    _sortOrder=prefs.readSortOrderList()
+    _sortOrder = prefs.readSortOrderList()
     viewModelScope.launch {
       _lists.postValue(sortedTask(_sortOrder, getAllListUseCases.invoke()))
     }
@@ -58,20 +58,13 @@ class ListsViewModel(
   private fun checkMessages(){
     val message=messageRepository.getMessage()
     if (message!=null){
-      _snackbarText.value=message
+      _snackbarText.value = message
     }
   }
 
-  private fun updateMessage(){
-       val message=messageRepository.getMessage()
-   if (message!=null){
-     _snackbarText.value=message
-   }
-  }
-  
   fun takeAction(action: ListsAction) {
     when (action) {
-      ListsAction.UpdateMessages -> updateMessage()
+      ListsAction.UpdateMessages -> checkMessages()
       is ListsAction.SortList    -> sortList(action)
       ListsAction.NewList        -> createList()
     }
