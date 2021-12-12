@@ -29,7 +29,8 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
 
     private val prefs by lazy { UserPreferencesRepositoryImpl.getInstance(requireContext()) }
 
-    private var isListMode = true
+    private var isListMode  = true
+
     private var isDisplayRateUs=false
 
     private var _binding: ListsFragmentBinding? = null
@@ -37,7 +38,7 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
 
     private val adapter = ListsAdapter(this )
 
-    private lateinit var layoutManager: StaggeredGridLayoutManager
+    private val layoutManager by lazy { StaggeredGridLayoutManager((if (isListMode) 1 else 2), GridLayoutManager.VERTICAL) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,8 +63,7 @@ class ListsFragment : Fragment(), ListsAdapter.ListListener{
         return binding.root
     }
     private fun setupAdapter() {
-        val spanCount = if (isListMode) 1 else 2
-        binding.list.layoutManager = StaggeredGridLayoutManager(spanCount, GridLayoutManager.VERTICAL)
+        binding.list.layoutManager = layoutManager
         binding.list.adapter = adapter
     }
 
